@@ -3,15 +3,13 @@
  */
 import java.util.HashMap;
 import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class Welcome extends JFrame implements ActionListener {
 	HashMap<String,String> logininfo = new HashMap<String,String>();
@@ -20,7 +18,13 @@ public class Welcome extends JFrame implements ActionListener {
 	public Welcome(HashMap<String,String> loginInfo, String usrid){
 		logininfo = loginInfo;
 		setTitle("Banner Self Service");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		try {
+			setIconImage(ImageIO.read(new File("C:/Users/Mubarak/Desktop/ku.png")));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new FlowLayout());
 		String subjects[] = {"calc1","calc2","phy1","phy2","c++","oop"};
 		comboBox = new JComboBox(subjects);
@@ -36,7 +40,6 @@ public class Welcome extends JFrame implements ActionListener {
 		add(comboBox);
 		setVisible(true);
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
