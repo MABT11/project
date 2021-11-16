@@ -1,9 +1,7 @@
 /*
  * We store the information about the users here in a hash function 
  */
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.HashMap;
 
 public class LoginInfo {
