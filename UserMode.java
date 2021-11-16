@@ -2,25 +2,20 @@
  * The gui in which we know what type of user we are dealing with admin, student or instructor
  */
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.awt.event.*;
 import java.net.URL;
+import java.io.*;
 import java.util.HashMap;
-import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.*;
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
 
-
-public class UserMode implements ActionListener {
+public class UserMode extends JFrame implements ActionListener {
 	/*
 	 * creating our instance variables, window and buttons 
 	 */
-	JFrame frame = new JFrame("Banner Self Service");
-	JLabel labl = new JLabel("Welcome");
+	
+	JLabel labl = new JLabel();
 	JButton instructorButton = new JButton("Instructor");
 	JButton studentButton = new JButton("Student");
 	JButton adminButton = new JButton("Admin");
@@ -34,13 +29,13 @@ public class UserMode implements ActionListener {
 		/*
 		 * to download an image from the Internet to appear as the icon for the program
 		 */
-		URL url = new URL("https://i.pinimg.com/originals/b3/cf/46/b3cf46044ddf5c8c9eeaffdc3eab27e2.jpg");
-		
-		frame.setIconImage(ImageIO.read(url));
+		// URL url = new URL("https://media.glassdoor.com/sqll/500688/khalifa-university-squarelogo-1555333009225.png");
+		setTitle("Banner Self Service");
+		setIconImage(ImageIO.read(new File("C:/Users/Mubarak/Desktop/ku.png")));
 		adminButton.setFocusable(false);
 		adminButton.addActionListener(this);
 		adminButton.setFont(new Font(null,Font.BOLD,20));
-		
+		setTitle("Welcome");
 		studentButton.setFocusable(false);
 		studentButton.addActionListener(this);
 		studentButton.setFont(new Font(null,Font.BOLD,20));
@@ -49,34 +44,34 @@ public class UserMode implements ActionListener {
 		instructorButton.addActionListener(this);
 		instructorButton.setFont(new Font(null,Font.BOLD,20));
 		
-		frame.setLayout(new GridLayout(3,3));
-		frame.add(new JLabel(""));
-		frame.add(instructorButton);
-		frame.add(new JLabel(""));
-		frame.add(new JLabel(""));
-		frame.add(studentButton);
-		frame.add(new JLabel(""));
-		frame.add(new JLabel(""));
-		frame.add(adminButton);
-		frame.add(new JLabel(""));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(720,400);
-		frame.setVisible(true);
-		frame.setLocationRelativeTo(null);
+		setLayout(new GridLayout(3,3));
+		add(new JLabel(""));
+		add(instructorButton);
+		add(new JLabel(""));
+		add(new JLabel(""));
+		add(studentButton);
+		add(new JLabel(""));
+		add(new JLabel(""));
+		add(adminButton);
+		add(new JLabel(""));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(720,400);
+		setVisible(true);
+		setLocationRelativeTo(null);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==studentButton) {
 			new LoginPage(logininfo);
-			frame.dispose();
+			dispose();
 		}
 		if(e.getSource()==instructorButton) {
 			new LoginPage(logininfo);
-			frame.dispose();
+			dispose();
 		}
 		if(e.getSource()==adminButton) {
 			new LoginPage(logininfo);
-			frame.dispose();
+			dispose();
 		}
 	}
 }
