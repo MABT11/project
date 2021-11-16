@@ -4,31 +4,24 @@
  * need to be made
  */
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import java.awt.event.*;
+import java.io.*;
+import javax.imageio.ImageIO;
+import java.util.*;
+import java.awt.*;
+import javax.swing.*;
 
-public class LoginPage implements ActionListener{
+public class LoginPage extends JFrame implements ActionListener{
 	/*
 	 * creating the instance variables like the window, buttons, labels, user input 
-	 */
-	JFrame frame = new JFrame("Login");
-	/*
 	 * buttons
 	 */
 	JButton loginButton = new JButton("Login");
 	JButton resetButton = new JButton("Reset");
 	JButton registerButton = new JButton("Register");
 	JButton backButton = new JButton("Back");
+	
+	
 	/*
 	 * fields
 	 */
@@ -39,6 +32,8 @@ public class LoginPage implements ActionListener{
 	 */
 	JLabel userIDLabel = new JLabel("User ID:");
 	JLabel userPasswordLabel = new JLabel("Password:");
+	// JLabel showPasswordLabel = new JLabel("👁");
+	JCheckBox showPasswordCheckBox = new JCheckBox("Show Password");  
 	/*
 	 * pop message when the user try to sign in
 	 */
@@ -48,11 +43,24 @@ public class LoginPage implements ActionListener{
 	LoginPage(HashMap<String,String> loginInfo){
 		
 		logininfo = loginInfo;
-		
+		setTitle("Login");
+		try {
+			setIconImage(ImageIO.read(new File("C:/Users/Mubarak/Desktop/ku.png")));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		/* to change the font of object
 		 * objName.setFont(new Font(null,Font.ITALIC,25));
 		 */
-		
+		// showPasswordLabel.setFont(new Font(null,0,20));
+		// showPasswordLabel.setVisible(false);
+		// userPasswordField.setEchoChar((char)0);
+		// userPasswordField.setEchoChar('*');
+		showPasswordCheckBox.addActionListener(this);
+		userPasswordField.setEchoChar('*');
+
+
 		//square box around the word
 		messageLabel.setFocusable(false);
 		messageLabel.setFont(new Font(null,Font.ITALIC,13));
@@ -79,32 +87,31 @@ public class LoginPage implements ActionListener{
 		/*
 		 * adding the componants to the window 
 		 */
-		frame.add(new JLabel(""));
-		frame.add(new JLabel(""));
-		frame.add(new JLabel(""));
-		frame.add(backButton);
-		frame.add(new JLabel(""));
-		frame.add(new JLabel(""));
-		frame.add(userIDLabel);
-		frame.add(userIDField);
-		frame.add(new JLabel(""));
-		frame.add(userPasswordLabel);
-		frame.add(userPasswordField);
-		frame.add(new JLabel(""));
-
-		frame.add(resetButton);
-		frame.add(loginButton);
-		frame.add(registerButton);
-		frame.add(new JLabel(""));
-		frame.add(messageLabel);
+		add(new JLabel(""));
+		add(new JLabel(""));
+		add(new JLabel(""));
+		add(backButton);
+		add(new JLabel(""));
+		add(new JLabel(""));
+		add(userIDLabel);
+		add(userIDField);
+		add(new JLabel(""));
+		add(userPasswordLabel);
+		add(userPasswordField);
+		add(showPasswordCheckBox);
+		add(resetButton);
+		add(loginButton);
+		add(registerButton);
+		add(new JLabel(""));
+		add(messageLabel);
 		/*
 		 * window configurations
 		 */
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(420,420);
-		frame.setLayout(new GridLayout(7,3));
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(420,420);
+		setLayout(new GridLayout(7,3));
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 
 	/*
@@ -117,8 +124,13 @@ public class LoginPage implements ActionListener{
 		 * and close the current window
 		 */
 		if(e.getSource()==backButton) {
-			new LoginInfo();
-			frame.dispose();
+			LoginInfo l = new LoginInfo();
+			try {
+				new UserMode(l.getLoginInfo());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			dispose();
 		}
 		/*
 		 * resting the input to the empty string
@@ -126,6 +138,12 @@ public class LoginPage implements ActionListener{
 		if(e.getSource()==resetButton) {
 			userIDField.setText("");
 			userPasswordField.setText("");
+		}
+		if(showPasswordCheckBox.isSelected()) {
+			userPasswordField.setEchoChar((char)0);
+		}
+		else{
+			userPasswordField.setEchoChar('*');
 		}
 		/*
 		 * if the loginButton was pressed
@@ -147,11 +165,8 @@ public class LoginPage implements ActionListener{
 					/*
 					 * display a suitable message and move to the dashboard 
 					 */
-//					messageLabel.setForeground(Color.green);
-//					messageLabel.setText("Login Successful");
-//					JOptionPane.showMessageDialog(null, "Login Successful", "Welcome", JOptionPane.INFORMATION_MESSAGE);
 					new Welcome(logininfo,userIDField.getText());
-					frame.dispose();
+					dispose();
 				}
 				else {
 					messageLabel.setForeground(Color.red);
@@ -171,26 +186,7 @@ public class LoginPage implements ActionListener{
 		}
 		if(e.getSource()==registerButton) {
 			new Register(logininfo);
-			frame.dispose();
+			dispose();
 		}	
 	}
-	//	LoginPage(){
-	//	loginButton.setFocusable(false);
-	//	loginButton.addActionListener(this);
-	//	resetButton.setFocusable(false);
-	//	resetButton.addActionListener(this);
-	//	backButton.setFocusable(false);
-	//	backButton.addActionListener(this);
-	//	frame.add(userIDLabel);
-	//	frame.add(userIDField);
-	//	frame.add(userPasswordLabel);
-	//	frame.add(userPasswordField);
-	//	frame.add(resetButton);
-	//	frame.add(loginButton);
-	//	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	//	frame.setSize(420,420);
-	//	frame.setLayout(new GridLayout(3,2));
-	//	frame.setLocationRelativeTo(null);
-	//	frame.setVisible(true);
-	//}
 }
