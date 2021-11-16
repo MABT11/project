@@ -1,17 +1,12 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.awt.event.*;
+import java.io.*;
 import java.util.HashMap;
 import java.awt.GridLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
-public class Register implements ActionListener{
-	JFrame frame = new JFrame("Sign up");
+public class Register extends JFrame implements ActionListener{
+	
 	JLabel labl = new JLabel("Welcome");
 	JButton registerButton = new JButton("Register");
 	JButton resetButton = new JButton("Reset");
@@ -25,13 +20,18 @@ public class Register implements ActionListener{
 	JLabel lastNamelabel = new JLabel("Last name:");
 	JLabel userPasswordLabel = new JLabel("Password:");
 
-//	PrintWriter fout ;
 	HashMap<String,String> logininfo = new HashMap<String,String>();
 
 	public Register(HashMap<String,String> loginInfo) {
 		
 		logininfo = loginInfo;
-		
+
+		setTitle("Register");
+		try {
+			setIconImage(ImageIO.read(new File("C:/Users/Mubarak/Desktop/ku.png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		//square box around the word
 		registerButton.setFocusable(false);
 		//to add functionality to the box
@@ -46,25 +46,25 @@ public class Register implements ActionListener{
 		backButton.setFocusable(false);
 		//to add functionality to the box
 		backButton.addActionListener(this);
-		frame.add(new JLabel(""));
-		frame.add(new JLabel(""));
-		frame.add(backButton);
-		frame.add(new JLabel(""));
-		frame.add(firstNamelabel);
-		frame.add(firstNameField);
-		frame.add(lastNamelabel);
-		frame.add(lastNameField);
-		frame.add(userIDLabel);
-		frame.add(userIDField);
-		frame.add(userPasswordLabel);
-		frame.add(userPasswordField);
-		frame.add(resetButton);
-		frame.add(registerButton);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(420,420);
-		frame.setLayout(new GridLayout(10,2));
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);	
+		add(new JLabel(""));
+		add(new JLabel(""));
+		add(backButton);
+		add(new JLabel(""));
+		add(firstNamelabel);
+		add(firstNameField);
+		add(lastNamelabel);
+		add(lastNameField);
+		add(userIDLabel);
+		add(userIDField);
+		add(userPasswordLabel);
+		add(userPasswordField);
+		add(resetButton);
+		add(registerButton);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(420,420);
+		setLayout(new GridLayout(10,2));
+		setLocationRelativeTo(null);
+		setVisible(true);	
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -78,7 +78,7 @@ public class Register implements ActionListener{
 		 */
 		if(e.getSource()==backButton) {
 			new LoginPage(logininfo);
-			frame.dispose();
+			 dispose();
 		}
 		//register button was clicked
 		if(e.getSource()==registerButton) {
@@ -91,7 +91,7 @@ public class Register implements ActionListener{
 			 * First check if the user filled the boxes with his credentials
 			 */
 			if(userid.isEmpty() || password.isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Id and password filds should not be empty", "Registration Unuccessful", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Id and password fields should not be empty", "Registration Unuccessful", JOptionPane.ERROR_MESSAGE);
 			}
 			
 			
@@ -113,10 +113,9 @@ public class Register implements ActionListener{
 				try {
 					new LoginInfo(userid,password,o);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				frame.dispose();
+				 dispose();
 				}
 			}
 		}	
