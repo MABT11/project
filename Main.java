@@ -2,13 +2,30 @@
  * Main class Driver class
  */
 import java.io.IOException;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 public class Main {
 
+	public static enum type{
+		STUDENT,
+		INSTRUCTOR,
+		ADMIN		
+	}
 	public static void main(String[] args) throws IOException {
-		
-		LoginInfo logininfo = new LoginInfo();
-		new UserMode(logininfo.getLoginInfo());
-		
+		try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+		 /*
+         * For thread safety only
+         */
+       SwingUtilities.invokeLater(new Runnable() {
+           @Override
+           public void run() {
+               new LoginPage();
+           }
+       });
 	}
 }
