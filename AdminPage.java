@@ -8,14 +8,17 @@ import java.io.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
-
-public class Welcome extends JFrame implements ActionListener, MouseListener {
-//	private JComboBox comboBox;
+/*
+ * the filter is mouse event
+ */
+public class AdminPage extends JFrame implements ActionListener, MouseListener {
+	
 	private JLabel addDropStudent = new JLabel("Add and drop Students");
 	private JLabel addDropInstructor = new JLabel("Add and drop Instructor");
 	private JButton logoutButton = new JButton("Logout");
 	private JPanel panel = new JPanel(new GridBagLayout());
-	public Welcome(){
+	
+	public AdminPage(){
 		setTitle("Banner Self Service");
 		try {
 			setIconImage(ImageIO.read(new File("ku.png")));
@@ -46,25 +49,14 @@ public class Welcome extends JFrame implements ActionListener, MouseListener {
 		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		panel.setBorder(BorderFactory.createEtchedBorder());
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
-		panel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(), "Dashboard"));
-//		constraints.fill =  GridBagConstraints.HORIZONTAL;
+		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Dashboard"));
 		constraints.fill =  GridBagConstraints.VERTICAL;
 		
-//		String subjects[] = {"calc1","calc2","phy1","phy2","c++","oop"};
-//		comboBox = new JComboBox(subjects);
-//		comboBox.addActionListener(this);
-//		comboBox.setEditable(true);
-//		comboBox.getItemCount();
-//		comboBox.addItem("calc3");
-//		comboBox.insertItemAt("calc3", 0);
-//		comboBox.setSelectedIndex(0);
-//		comboBox.removeItem("calc1");
 		constraints.gridx = 0;
         constraints.gridy = 0;
 		panel.add(logoutButton,constraints);
         constraints.gridy = 1;
-        panel.add(addDropInstructor,constraints);
+        panel.add(addDropStudent,constraints);
         constraints.gridx = 1;
         panel.add(addDropInstructor,constraints);
         add(panel);
@@ -75,18 +67,11 @@ public class Welcome extends JFrame implements ActionListener, MouseListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		/*if(e.getSource()==comboBox) {
-			System.out.println(comboBox.getSelectedItem());
-//			System.out.println(comboBox.getSelectedIndex());
-		}*/
 		if(e.getSource()==addDropInstructor) {
-//			new addDropInstructor();
+			new addDropInstructor();
 			dispose();
 		}
-		if(e.getSource()==addDropStudent) {
-//			new addDropStudents();
-			dispose();
-		}
+		
 		if(e.getSource()==logoutButton) {
 			new LoginPage();
 			dispose();
@@ -94,8 +79,10 @@ public class Welcome extends JFrame implements ActionListener, MouseListener {
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		new addDropStudents();
-		dispose(); 
+		if(e.getSource()==addDropStudent) {
+			new addDropStudents();
+			dispose();
+		} 
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {

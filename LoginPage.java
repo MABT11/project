@@ -36,6 +36,7 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 	 * pop message when the user try to sign in
 	 */
 	private JLabel messageLabel = new JLabel();
+	private Users users = new Users();
 
 	LoginPage(){
 		
@@ -52,22 +53,16 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		//square box around the word
 		messageLabel.setFocusable(false);
 		messageLabel.setFont(new Font(null,Font.ITALIC,13));
-		//square box around the word
-		loginButton.setFocusable(false);
 		//to add functionality to the box
 		loginButton.addActionListener(this);
 		
-		//square box around the word
-		registerButton.setFocusable(false);
 		//to add functionality to the box
 		registerButton.addActionListener(this);
 		
-		//square box around the word
-		backButton.setFocusable(false);
 		//to add functionality to the box
 		backButton.addActionListener(this);
 		
-		userIDField.addKeyListener(this);
+//		userIDField.addKeyListener(this);
 		userPasswordField.addKeyListener(this);
 
 		/*
@@ -77,19 +72,15 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.insets = new Insets(10, 10, 10, 10);
 		
-		panel.setBackground(Color.orange);
+		panel.setBackground(Color.white);
 		panel.setOpaque(true);
 		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		panel.setBorder(BorderFactory.createEtchedBorder());
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
-		panel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(), "Login"));
-		showPasswordCheckBox.setBackground(Color.orange);
-//		constraints.fill =  GridBagConstraints.HORIZONTAL;
+		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Login"));
+		showPasswordCheckBox.setBackground(Color.white);
 		constraints.fill =  GridBagConstraints.VERTICAL;
 
-//		constraints.ipadx = 20;
-//		constraints.ipady = 5;
 		//to move the buttons on the grid
 		constraints.gridx = 0;
         constraints.gridy = 0;
@@ -112,6 +103,7 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		constraints.gridx = 0;
         constraints.gridy = 4;
 		constraints.insets = new Insets(1, 1, 1, 1);
+		//span
 		panel.add(messageLabel, constraints);
 		add(panel);
 		/*
@@ -149,47 +141,47 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 			/*
 			 * get the id and the password 
 			 */
-			String userid = userIDField.getText();
-			String password = String.valueOf(userPasswordField.getPassword());
 			/*
 			 * To verify the id is in the hashmap or not there
 			 */
-			if(userid.isEmpty() || password.isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Id and or password fields should not be empty", "Registration Unuccessful", JOptionPane.ERROR_MESSAGE);
+			if(log()) {
+				System.out.println("Login success");
+				dispose();
 			}
 			else {
-				Scanner fin;
-				try {
-					fin = new Scanner(new File("users.txt"));
-					fin.useDelimiter("[ \n]");
-					String tmpid,tmppass;
-					while(fin.hasNext()) {
-						tmpid = fin.next();
-						tmppass = fin.next();
-						if(tmpid.trim().equals(userid.trim())) {
-							/*
-							 * if username mathches check for the password and check
-							 */
-							if(tmppass.trim().equals(password.trim())) {
-								/*
-								 * Move to the dashboard 
-								 */
-								new Welcome();
-								dispose();
-							}
-						}
-						else {
-							messageLabel.setForeground(Color.red);
-							messageLabel.setText("Login Unsuccessful");
-						}
-					}
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				System.out.println("Login failure");
 			}
 		}
 	}
+	public boolean log() {
+		if(userIDField.getText().isEmpty() || String.valueOf(userPasswordField.getPassword()).isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Id and or password fields should not be empty", "Registration Unuccessful", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		Vector<Users> temp = new Vector<Users>();
+		temp = users.getUsers();
+		int len = temp.size();
+		for(int i= 0;i<len;i++) {
+			if(temp.elementAt(i).getID().equals(userIDField.getText().trim())) {
+				if(temp.elementAt(i).getPassword().equals(String.valueOf(userPasswordField.getPassword()).trim())) {
+					if(temp.elementAt(i).getOccupation().equals("ADMIN")) {
+						new AdminPage();
+						return true;
+					}
+					if(temp.elementAt(i).getOccupation().equals("STUDENT")) {
+						new StudentPage();
+						return true;
+					}
+					if(temp.elementAt(i).getOccupation().equals("INSTRUCTOR")) {
+						new InstructorPage();
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -199,7 +191,7 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			userIDField.requestFocus();
+			log();
 		}
 		
 	}

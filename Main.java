@@ -13,6 +13,7 @@ public class Main {
 		ADMIN		
 	}
 	public static void main(String[] args) throws IOException {
+		
 		try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
@@ -27,5 +28,6 @@ public class Main {
                new LoginPage();
            }
        });
+//		System.out.println(Verify.IDVerifier("100053896"));
 	}
 }
