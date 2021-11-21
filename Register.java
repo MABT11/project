@@ -147,9 +147,10 @@ public class Register extends JFrame implements ActionListener{
 		}
 		//register button was clicked
 		if(e.getSource()==registerButton) {
-			register();
-			new AdminPage();
-			dispose();
+			if(register()){
+				new AdminPage();
+				dispose();
+			}
 		}
 		if(showPasswordCheckBox.isSelected()) {
 			userPasswordField.setEchoChar((char)0);
@@ -158,7 +159,7 @@ public class Register extends JFrame implements ActionListener{
 			userPasswordField.setEchoChar('*');
 		}
 	}
-	public void register() {
+	public boolean register() {
 		fname = firstNameField.getText().strip().replace(" ", "");
 		lname = lastNameField.getText().strip().replace(" ", "");
 		userid = userIDField.getText().strip();
@@ -169,16 +170,20 @@ public class Register extends JFrame implements ActionListener{
 		 */
 		if(!Verify.NameVerifier(fname)&&!Verify.NameVerifier(lname)) {
 			JOptionPane.showMessageDialog(null, "Please Enter a vaild name", "Registration Unuccessful", JOptionPane.ERROR_MESSAGE);	
+			return false;
 		}
 		if(!Verify.IDVerifier(userid)) {
 			JOptionPane.showMessageDialog(null, "Please Enter a vaild ID", "Registration Unuccessful", JOptionPane.ERROR_MESSAGE);	
+			return false;
 		}
 		if(!Verify.PassVerifier(password)) {
 			messageLabel.setForeground(Color.red);
 			messageLabel.setText("<html>Password should have at least<br>1 uppercase<br>1 lowercase letter<br>1 special character<br>1 number");
+			return false;
 		}
 		if(!studentRadioButton.isSelected()&&!instructorRadioButton.isSelected()) {
 			JOptionPane.showMessageDialog(null, "You need to select user type STUDENT or INSTRUCTOR", "Registration Unsuccesful", JOptionPane.ERROR_MESSAGE);
+			return false;
 		}
 		if(studentRadioButton.isSelected()) {
 			occupation = new String("STUDENT");
@@ -195,22 +200,21 @@ public class Register extends JFrame implements ActionListener{
 		int len = temp.size();
 		int i =0;
 		for (i=0;i< len;i++) {
-			System.out.println("Saved in vector " + temp.get(i).getID());
-			System.out.println("From the user text field "+userid);
 			//to check if the user exists 
-			if(userid.equals(temp.get(i).getID())) {
+			if(userid.equals(temp.elementAt(i).getID())) {
 				flag = true;
 			}
 		}
 		if(flag) {
 			JOptionPane.showMessageDialog(null, "User Exists", "Registration Unsuccessful", JOptionPane.ERROR_MESSAGE);
+			return false;
 		}
 		else {
 			//add users to the vector of type user object
 			temp.add(new Users(fname, lname, userid, password,occupation));
 			JOptionPane.showMessageDialog(null, "Registration Successful", "Registration Completed", JOptionPane.INFORMATION_MESSAGE);
-			System.out.println(temp.size());
 			users.saveUsers(temp);
+			return true;
 		}
 	}
 }
