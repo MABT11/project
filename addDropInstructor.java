@@ -1,4 +1,6 @@
-//to assign courseload to the instructors
-public class addDropInstructor {
+/*
+ * to assign course load to the instructors
+ */
+public class AddDropInstructor {
 
 }

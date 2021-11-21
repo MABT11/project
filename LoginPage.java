@@ -18,8 +18,6 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 	 * buttons
 	 */
 	private JButton loginButton = new JButton("Login");
-	private JButton registerButton = new JButton("Register");
-	private JButton backButton = new JButton("Back");
 	private JPanel panel = new JPanel(new GridBagLayout());
 	/*
 	 * fields
@@ -38,7 +36,7 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 	private JLabel messageLabel = new JLabel();
 	private Users users = new Users();
 
-	LoginPage(){
+	public LoginPage(){
 		
 		setTitle("Login");
 		try {
@@ -51,18 +49,15 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		userPasswordField.setEchoChar('*');
 		
 		//square box around the word
-		messageLabel.setFocusable(false);
 		messageLabel.setFont(new Font(null,Font.ITALIC,13));
 		//to add functionality to the box
 		loginButton.addActionListener(this);
+		loginButton.setFocusable(false);
+		loginButton.setFont(new Font(null,Font.PLAIN,18));
+		loginButton.setPreferredSize(new Dimension(78,25));
+		loginButton.setBackground(Color.blue.darker());
+		loginButton.setOpaque(true);
 		
-		//to add functionality to the box
-		registerButton.addActionListener(this);
-		
-		//to add functionality to the box
-		backButton.addActionListener(this);
-		
-//		userIDField.addKeyListener(this);
 		userPasswordField.addKeyListener(this);
 
 		/*
@@ -78,7 +73,7 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		panel.setBorder(BorderFactory.createEtchedBorder());
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
 		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Login"));
-		showPasswordCheckBox.setBackground(Color.white);
+		showPasswordCheckBox.setBackground(panel.getBackground());
 		constraints.fill =  GridBagConstraints.VERTICAL;
 
 		//to move the buttons on the grid
@@ -95,11 +90,9 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		constraints.gridx = 1;
         constraints.gridy = 2;
 		panel.add(showPasswordCheckBox, constraints);
-		constraints.gridx = 0;
+		constraints.gridx = 1;
         constraints.gridy = 3;
 		panel.add(loginButton, constraints);
-		constraints.gridx = 1;
-		panel.add(registerButton, constraints);
 		constraints.gridx = 0;
         constraints.gridy = 4;
 		constraints.insets = new Insets(1, 1, 1, 1);
@@ -110,7 +103,7 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		 * window configurations
 		 */
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setMinimumSize(new Dimension(420, 320));
+		setMinimumSize(new Dimension(380, 320));
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -133,20 +126,9 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		/*
 		 * if the loginButton was pressed
 		 */
-		if(e.getSource()==registerButton) {
-			new Register();
-			dispose();
-		}
 		if(e.getSource()==loginButton) {
-			/*
-			 * get the id and the password 
-			 */
-			/*
-			 * To verify the id is in the hashmap or not there
-			 */
 			if(log()) {
 				System.out.println("Login success");
-				dispose();
 			}
 			else {
 				System.out.println("Login failure");
@@ -166,14 +148,17 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 				if(temp.elementAt(i).getPassword().equals(String.valueOf(userPasswordField.getPassword()).trim())) {
 					if(temp.elementAt(i).getOccupation().equals("ADMIN")) {
 						new AdminPage();
+						dispose();
 						return true;
 					}
 					if(temp.elementAt(i).getOccupation().equals("STUDENT")) {
 						new StudentPage();
+						dispose();
 						return true;
 					}
 					if(temp.elementAt(i).getOccupation().equals("INSTRUCTOR")) {
 						new InstructorPage();
+						dispose();
 						return true;
 					}
 				}

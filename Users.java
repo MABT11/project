@@ -29,21 +29,7 @@ public class Users {
 		this.password = null;
 		this.occupation = null;
 	}
-	public String getFirstName() {
-		return this.firstName;
-	}
-	public String getLastName() {
-		return this.lastName;
-	}
-	public String getID() {
-		return this.id;
-	}
-	public String getPassword() {
-		return this.password;
-	}
-	public String getOccupation() {
-		return this.occupation;
-	}
+	
 	//write users to file 
 	public void saveUsers(Vector<Users> save) {
 		try {
@@ -74,20 +60,38 @@ public class Users {
 		}
 		saveUsers(save);
 	}
-	//load users info from file to vector
+	//read the users from the file to and store them in the vector of type users
 	public Vector<Users> getUsers() {
 		Vector<Users> load = new Vector<Users>();
 		try {
-			Scanner L = new Scanner(new File("users.txt"));
-			while (L.hasNext()) {
-				load.add(new Users(L.next(), L.next(), L.next(), L.next(), L.next()));
+			Scanner read = new Scanner(new File("users.txt"));
+			while (read.hasNext()) {
+				
+				load.add(new Users(read.next(), read.next(), read.next(), read.next(), read.next()));
 			}
-			L.close();
+			read.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		return load;
 	}
+	//getters methods
+	public String getFirstName() {
+		return this.firstName;
+	}
+	public String getLastName() {
+		return this.lastName;
+	}
+	public String getID() {
+		return this.id;
+	}
+	public String getPassword() {
+		return this.password;
+	}
+	public String getOccupation() {
+		return this.occupation;
+	}
+	//setters methods
 	public void setFirstName(String fname) {
 		this.firstName=fname;
 	}

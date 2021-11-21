@@ -1,3 +1,6 @@
+/*
+ * Regex to check the sanity of the input name, pass, id
+ */
 import java.util.regex.*;
 public class Verify {
 	
@@ -25,10 +28,10 @@ public class Verify {
 			(?=.*[A-Z])        an upper case letter must occur at least once
 			(?=.*[@#$%^&+=])   a special character must occur at least once
 			(?=\S+$)           no whitespace allowed in the entire string
-			.{8,}              anything, at least eight places though
+			.{6,}              anything, at least six characters though
 			$                  end-of-string
 		   */
-          Pattern pattern = Pattern.compile( "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+_!=])(?=\\S+$).{8,}$" );
+          Pattern pattern = Pattern.compile( "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+_!=])(?=\\S+$).{6,}$" );
           Matcher matcher = pattern.matcher(pass);
           if(matcher.matches())
               return true;

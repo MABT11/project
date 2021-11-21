@@ -88,8 +88,7 @@ public class Register extends JFrame implements ActionListener{
 		constraints.gridx = 1;
 		panel.add(studentRadioButton, constraints);
 		constraints.gridx = 2;
-		panel.add(instructorRadioButton
-);
+		panel.add(instructorRadioButton);
 		constraints.gridx = 0;
 		constraints.gridy = 1;
 		panel.add(firstNamelabel,constraints);
@@ -125,6 +124,7 @@ public class Register extends JFrame implements ActionListener{
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
+		setMinimumSize(new Dimension(500, 400));
 		setLocationRelativeTo(null);
 		setVisible(true);	
 	}
@@ -135,17 +135,21 @@ public class Register extends JFrame implements ActionListener{
 		if(e.getSource()==resetButton) {
 			userIDField.setText("");
 			userPasswordField.setText("");
+			firstNameField.setText("");
+			lastNameField.setText("");
 		}
 		/*
-		 * if back was pressed go back to the loginpage
+		 * if back was pressed go back to the Adminpage
 		 */
 		if(e.getSource()==backButton) {
-			new LoginPage();
+			new AdminPage();
 			 dispose();
 		}
 		//register button was clicked
 		if(e.getSource()==registerButton) {
 			register();
+			new AdminPage();
+			dispose();
 		}
 		if(showPasswordCheckBox.isSelected()) {
 			userPasswordField.setEchoChar((char)0);
@@ -155,11 +159,11 @@ public class Register extends JFrame implements ActionListener{
 		}
 	}
 	public void register() {
-		fname = firstNameField.getText();
-		lname = lastNameField.getText();
-		userid = userIDField.getText();
+		fname = firstNameField.getText().strip().replace(" ", "");
+		lname = lastNameField.getText().strip().replace(" ", "");
+		userid = userIDField.getText().strip();
 		password = String.valueOf(userPasswordField.getPassword());
-	
+		System.out.println("first name:"+fname+"\nlast name"+lname);
 		/*
 		 * First check if the user filled the boxes with his credentials
 		 */
@@ -171,7 +175,7 @@ public class Register extends JFrame implements ActionListener{
 		}
 		if(!Verify.PassVerifier(password)) {
 			messageLabel.setForeground(Color.red);
-			messageLabel.setText("Password should have at least 1 uppercase 1 lowercase letter 1 special character 1 number");
+			messageLabel.setText("<html>Password should have at least<br>1 uppercase<br>1 lowercase letter<br>1 special character<br>1 number");
 		}
 		if(!studentRadioButton.isSelected()&&!instructorRadioButton.isSelected()) {
 			JOptionPane.showMessageDialog(null, "You need to select user type STUDENT or INSTRUCTOR", "Registration Unsuccesful", JOptionPane.ERROR_MESSAGE);
@@ -179,7 +183,7 @@ public class Register extends JFrame implements ActionListener{
 		if(studentRadioButton.isSelected()) {
 			occupation = new String("STUDENT");
 		}
-		if(instructorRadioButton.isSelected()) {
+		else if(instructorRadioButton.isSelected()) {
 			occupation= new String("INSTRUCTOR");
 		}
 		/* to verify username is in the vector or not there
@@ -205,13 +209,8 @@ public class Register extends JFrame implements ActionListener{
 			//add users to the vector of type user object
 			temp.add(new Users(fname, lname, userid, password,occupation));
 			JOptionPane.showMessageDialog(null, "Registration Successful", "Registration Completed", JOptionPane.INFORMATION_MESSAGE);
-			
-			new LoginPage();
-			
 			System.out.println(temp.size());
 			users.saveUsers(temp);
-			dispose();
-			
 		}
 	}
 }

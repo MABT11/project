@@ -26,6 +26,7 @@ public class Main {
            @Override
            public void run() {
                new LoginPage();
+//        	   new AddDropStudents();
            }
        });
 //		System.out.println(Verify.IDVerifier("100053896"));

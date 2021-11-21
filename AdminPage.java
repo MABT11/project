@@ -15,7 +15,11 @@ public class AdminPage extends JFrame implements ActionListener, MouseListener {
 	
 	private JLabel addDropStudent = new JLabel("Add and drop Students");
 	private JLabel addDropInstructor = new JLabel("Add and drop Instructor");
+	private JLabel courses = new JLabel("Courses");
+	
 	private JButton logoutButton = new JButton("Logout");
+	private JButton registerButton = new JButton("Register new users");
+
 	private JPanel panel = new JPanel(new GridBagLayout());
 	
 	public AdminPage(){
@@ -27,23 +31,28 @@ public class AdminPage extends JFrame implements ActionListener, MouseListener {
 			e.printStackTrace();
 		}
 		
-		//square box around the word
 		logoutButton.setFocusable(false);
-		//to add functionality to the box
 		logoutButton.addActionListener(this);
+		
+		registerButton.addActionListener(this);
+		registerButton.setFocusable(false);
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.insets = new Insets(10, 10, 10, 10);
 		
+		//like the hyperlink text change cursor make it underlined and blue
 		addDropInstructor.setForeground(Color.BLUE.darker());
 		addDropInstructor.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		addDropInstructor.addMouseListener(this);
 		addDropStudent.setForeground(Color.BLUE.darker());
 		addDropStudent.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		addDropStudent.addMouseListener(this);
+		courses.setForeground(Color.BLUE.darker());
+		courses.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		courses.addMouseListener(this);
 		
-		
+		//panel and colors
 		panel.setBackground(Color.white);
 		panel.setOpaque(true);
 		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
@@ -52,13 +61,21 @@ public class AdminPage extends JFrame implements ActionListener, MouseListener {
 		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Dashboard"));
 		constraints.fill =  GridBagConstraints.VERTICAL;
 		
+		//adding everything to the panel
 		constraints.gridx = 0;
         constraints.gridy = 0;
 		panel.add(logoutButton,constraints);
+		constraints.gridx=1;
+		panel.add(registerButton,constraints);
+		constraints.gridx=0;
         constraints.gridy = 1;
         panel.add(addDropStudent,constraints);
         constraints.gridx = 1;
         panel.add(addDropInstructor,constraints);
+        constraints.gridx=0;
+        constraints.gridy = 2;
+        panel.add(courses,constraints);
+        
         add(panel);
 		pack();
 		setLocationRelativeTo(null);
@@ -67,22 +84,30 @@ public class AdminPage extends JFrame implements ActionListener, MouseListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==addDropInstructor) {
-			new addDropInstructor();
-			dispose();
-		}
 		
 		if(e.getSource()==logoutButton) {
 			new LoginPage();
+			dispose();
+		}
+		if(e.getSource()==registerButton) {
+			new Register();
 			dispose();
 		}
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource()==addDropStudent) {
-			new addDropStudents();
+			new AddDropStudents();
 			dispose();
-		} 
+		}
+		if(e.getSource()==addDropInstructor) {
+			new AddDropInstructor();
+			dispose();
+		}
+		if(e.getSource()==courses) {
+			new CoursesPage();
+			dispose();
+		}
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
