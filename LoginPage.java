@@ -37,7 +37,7 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 	private Users users = new Users();
 
 	public LoginPage(){
-		
+		Users.start();
 		setTitle("Login");
 		try {
 			setIconImage(ImageIO.read(new File("ku.png")));
@@ -55,8 +55,8 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		loginButton.setFocusable(false);
 		loginButton.setFont(new Font(null,Font.PLAIN,18));
 		loginButton.setPreferredSize(new Dimension(78,25));
-		loginButton.setBackground(Color.blue.darker());
-		loginButton.setOpaque(true);
+//		loginButton.setBackground(Color.blue);
+//		loginButton.setOpaque(true);
 		
 		userPasswordField.addKeyListener(this);
 
@@ -145,7 +145,7 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		int len = temp.size();
 		for(int i= 0;i<len;i++) {
 			if(temp.elementAt(i).getID().equals(userIDField.getText().trim())) {
-				if(temp.elementAt(i).getPassword().equals(String.valueOf(userPasswordField.getPassword()).trim())) {
+				if(temp.elementAt(i).getPassword().equals(String.valueOf(userPasswordField.getPassword()))) {
 					if(temp.elementAt(i).getOccupation().equals("ADMIN")) {
 						new AdminPage();
 						dispose();
@@ -161,6 +161,9 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 						dispose();
 						return true;
 					}
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Passsword Incorrect","Error",0);
 				}
 			}
 		}

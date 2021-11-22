@@ -25,8 +25,10 @@ public class Main {
        SwingUtilities.invokeLater(new Runnable() {
            @Override
            public void run() {
-               new LoginPage();
+//               new LoginPage();
 //        	   new AddDropStudents();
+//        	   new AddDropInstructor();
+        	   new Register();
            }
        });
 //		System.out.println(Verify.IDVerifier("100053896"));

@@ -63,7 +63,7 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 		 * creating a vector of users to use it in the jtable
 		 * count students assign it to object rows
 		 */
-		String[] colName= {"Name", "ID", "Courses"};
+		String[] colName= {"ID", "Name", "Courses"};
 		Users users = new Users();
 		Vector<Users> s =new Vector<Users>();
 		s = users.getUsers();
@@ -75,14 +75,18 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 			}
 		}
 		Object[][] students =new Object[count][3];
-		for(int i = 0; i <count;i++) {
-			if(s.elementAt(i).getOccupation().trim().equals("STUDENT")) {
-				students[i][0]=s.elementAt(i).getID();
-				students[i][1]=s.elementAt(i).getFirstName()+" "+s.elementAt(i).getLastName();
-				students[i][2]=s.elementAt(i).getPassword();
-			}
-			else {
-				continue;
+		for(int i = 0; i < count;i++) {
+			for(int j = 0; j < len; j++) {
+				if(s.elementAt(j).getOccupation().trim().equals("STUDENT")) {
+					students[i][0]=s.elementAt(j).getID();
+					students[i][1]=s.elementAt(j).getFirstName()+" "+s.elementAt(j).getLastName();
+					students[i][2]=s.elementAt(j).getPassword();
+					s.removeElementAt(j);
+					break;
+				}
+				else {
+					continue;
+				}
 			}
 		}
 		/*

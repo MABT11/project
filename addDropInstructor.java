@@ -1,16 +1,19 @@
 /*
- * to assign course load to the instructors
+ * to add drop and modify students details
  */
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.Vector;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 //add drop students to the courses
 public class AddDropInstructor extends JFrame implements ActionListener, MouseListener, DocumentListener{
@@ -73,29 +76,30 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		for(int i = 0; i<len;i++) {
 			if(s.elementAt(i).getOccupation().trim().equals("INSTRUCTOR")) {
 				count++;
+//				System.out.println(s.elementAt(i).getOccupation().trim());
 			}
+//			System.out.println(s.elementAt(i).toString());
 		}
-		Object[][] instructors =new Object[count][3];
-		for(int i = 0; i <count;i++) {
-			if(s.elementAt(i).getOccupation().trim().equals("INSTRUCTOR")) {
-				instructors[i][0]=s.elementAt(i).getID();
-				instructors[i][1]=s.elementAt(i).getFirstName()+" "+s.elementAt(i).getLastName();
-				instructors[i][2]=s.elementAt(i).getPassword();
-			}
-			else {
-				continue;
+		Object[][] students =new Object[count][3];
+		for(int i = 0; i < count;i++) {
+			for(int j = 0; j < len; j++) {
+				if(s.elementAt(j).getOccupation().trim().equals("INSTRUCTOR")) {
+					students[i][0]=s.elementAt(j).getID();
+					students[i][1]=s.elementAt(j).getFirstName()+" "+s.elementAt(j).getLastName();
+					students[i][2]=s.elementAt(j).getPassword();
+					s.removeElementAt(j);
+					break;
+				}
+				else {
+					continue;
+				}
 			}
 		}
 		/*
 		 * creating the table and configuring its dimensions
 		 */
-		table = new JTable(new DefaultTableModel(instructors,colName)){
-		    /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override					// set all cells to uneditable
+		table = new JTable(new DefaultTableModel(students,colName)){
+		    @Override					// set all cells to uneditable
 		    public boolean isCellEditable(int row, int column) {return false;}};
 		table.setPreferredScrollableViewportSize(new Dimension(400+len, 320));
 		/*
@@ -215,7 +219,7 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 	@Override
 	public void changedUpdate(DocumentEvent e) {
 		// TODO Auto-generated method stub
-		
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
-}
 
+}

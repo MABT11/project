@@ -23,6 +23,7 @@ public class AdminPage extends JFrame implements ActionListener, MouseListener {
 	private JPanel panel = new JPanel(new GridBagLayout());
 	
 	public AdminPage(){
+		
 		setTitle("Banner Self Service");
 		try {
 			setIconImage(ImageIO.read(new File("ku.png")));

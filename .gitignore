@@ -1,1 +1,5 @@
 v3.txt
+*.jar
+*.txt
+*.class
+manifest.MF

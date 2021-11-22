@@ -124,7 +124,7 @@ public class Register extends JFrame implements ActionListener{
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
-		setMinimumSize(new Dimension(500, 400));
+		setMinimumSize(new Dimension(550, 450));
 		setLocationRelativeTo(null);
 		setVisible(true);	
 	}
