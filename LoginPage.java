@@ -37,7 +37,7 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 	private Users users = new Users();
 
 	public LoginPage(){
-		Users.start();
+		
 		setTitle("Login");
 		try {
 			setIconImage(ImageIO.read(new File("ku.png")));
@@ -55,8 +55,9 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		loginButton.setFocusable(false);
 		loginButton.setFont(new Font(null,Font.PLAIN,18));
 		loginButton.setPreferredSize(new Dimension(78,25));
-//		loginButton.setBackground(Color.blue);
-//		loginButton.setOpaque(true);
+		loginButton.setToolTipText("Login");
+		loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
 		
 		userPasswordField.addKeyListener(this);
 

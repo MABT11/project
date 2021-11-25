@@ -19,8 +19,11 @@ public class AdminPage extends JFrame implements ActionListener, MouseListener {
 	
 	private JButton logoutButton = new JButton("Logout");
 	private JButton registerButton = new JButton("Register new users");
-
+	
+	private Users users = new Users();
 	private JPanel panel = new JPanel(new GridBagLayout());
+	private JLabel studentLabel=new JLabel("Number of students " +users.getStudents());
+	private JLabel facultyLabel=new JLabel("Number of faculty "+users.getFaculty());
 	
 	public AdminPage(){
 		
@@ -31,12 +34,18 @@ public class AdminPage extends JFrame implements ActionListener, MouseListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		studentLabel.setToolTipText("The number of currently enrolled students in the system");
+		facultyLabel.setToolTipText("The number of currently enrolled Faculty admin and instructors in the system");
 		
 		logoutButton.setFocusable(false);
 		logoutButton.addActionListener(this);
+		logoutButton.setToolTipText("Logout of the system");
+		logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
 		registerButton.addActionListener(this);
 		registerButton.setFocusable(false);
+		registerButton.setToolTipText("Register new users to the system");
+		registerButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.anchor = GridBagConstraints.WEST;
@@ -76,7 +85,12 @@ public class AdminPage extends JFrame implements ActionListener, MouseListener {
         constraints.gridx=0;
         constraints.gridy = 2;
         panel.add(courses,constraints);
-        
+        constraints.gridx=0;
+        constraints.gridy = 3;
+        panel.add(facultyLabel,constraints);
+        constraints.gridx=1;
+        constraints.gridy = 3;
+        panel.add(studentLabel,constraints);
         add(panel);
 		pack();
 		setLocationRelativeTo(null);

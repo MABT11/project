@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -23,11 +24,19 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 	private JLabel removeLabel = new JLabel("Remove");
 	private JLabel modifyLabel = new JLabel("Modify");
 
-	private JPanel panel = new JPanel(new GridBagLayout());
+	private GridBagLayout gbl_panel = new GridBagLayout();
+	private JPanel panel = new JPanel(gbl_panel);
 	private JTable table;
+	//search bar
 	private JTextField filter = new JTextField(30);
+	//for the table sort when clicking the headers of the table
 	private TableRowSorter<TableModel> rowSorter;
+	
 	public AddDropStudents(){
+		/*
+		 * for making the jtable exapd to the left and write and shrink but it still disappers
+		 */
+		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0};
 		setTitle("Banner Self Service");
 		try {
 			setIconImage(ImageIO.read(new File("ku.png")));
@@ -40,11 +49,13 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 		backButton.setFocusable(false);
 		//to add functionality to the box
 		backButton.addActionListener(this);
-		
+		//to add the dynamic search update while typing
 		filter.getDocument().addDocumentListener(this);
+		filter.setToolTipText("Search for students by name, id, courses");
+
 		
 		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.anchor = GridBagConstraints.WEST;
+//		constraints.anchor = GridBagConstraints.WEST;
 		constraints.insets = new Insets(10, 10, 10, 10);
 		
 		addLabel.setForeground(Color.BLUE.darker());
@@ -116,7 +127,9 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 		panel.setBorder(BorderFactory.createEtchedBorder());
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
 		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Add drop students"));
-		constraints.fill =  GridBagConstraints.VERTICAL;
+		//to span horizontally
+		constraints.fill =  GridBagConstraints.HORIZONTAL;
+
 		/*
 		 * adding components to the panel
 		 */
@@ -124,22 +137,24 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
         constraints.gridy = 0;
 		panel.add(backButton,constraints);
 		constraints.gridx = 1;
-		panel.add(filter);
+		panel.add(filter, constraints);
 		constraints.gridx = 0;
 		constraints.gridy = 2;
 		panel.add(addLabel,constraints);
 		constraints.gridx = 1;
+		constraints.gridheight = 100;
 		panel.add(scroll,constraints);
         constraints.gridx = 0;
 		constraints.gridy = 3;
+		constraints.gridheight = 1;
 		panel.add(removeLabel,constraints);
 		constraints.gridx = 0;
 		constraints.gridy = 4;
 		panel.add(modifyLabel,constraints);
-		add(panel);
+		getContentPane().add(panel);
 		pack();
 		setLocationRelativeTo(null);
-		setMinimumSize(new Dimension(580, 500));
+//		setMinimumSize(new Dimension(580, 500));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}

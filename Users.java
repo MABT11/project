@@ -65,6 +65,9 @@ public class Users {
 	//read the users from the file to and store them in the vector of type users
 	public Vector<Users> getUsers() {
 		Vector<Users> load = new Vector<Users>();
+		/*
+		 * read from the file
+		 */
 		try {
 			Scanner read = new Scanner(new File("users.txt"));
 			while (read.hasNext()) {
@@ -72,32 +75,43 @@ public class Users {
 				load.add(new Users(read.next(), read.next(), read.next(), read.next(), read.next()));
 			}
 			read.close();
+			/*
+			 * if the file was not found create a file
+			 */
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			String o ="Ahmed lname 1234567 pAsswor_d ADMIN\n"
+					+ "Mubarak Bin 100053896 passwOrd7! STUDENT\n"
+					+ "naser bdr 40004 password_1 INSTRUCTOR\n"
+					+ "khalid mohsen 1234 Password!9 STUDENT\n"
+					+ "mohmmed ali 11111 1qz!aa52 STUDENT\n"
+					+ "muasssss qwerty 123456789 dkjgndiognA!8 STUDENT\n"
+					+ "mohmed ahmed 789456123 Password!1 STUDENT\n"
+					+ "alia almehri 12345432 password_1 STUDENT\n"
+					+ "tom tony 12342123 password_1 STUDENT\n"
+					+ "salem labeb 58955856 password_1 INSTRUCTOR\n"
+					+ "awadh saif 123432 Lad0k$ STUDENT\n"
+					+ "adel khalifa 12222 1_drowssap STUDENT\n"
+					+ "yazan almousabi 13333 roopOd_1 STUDENT\n"
+					+ "naser bdr 44444 password_1 INSTRUCTOR\n"
+					+ "mosab hamza 66666 Hello_its3 STUDENT\n"
+					+ "hamdan alhmadi 77711 me_lo923 STUDENT\n"
+					+ "naser bdr 471352 password_1 INSTRUCTOR\n"
+					+ "adbullah omar 88888 qwerty_1 STUDENT\n"
+					+ "jamal tariq 99999 asdfgh0$ STUDENT\n"
+					+ "naser bdr 456980 password_1 INSTRUCTOR\n"
+					+ "abdulrhman abbas 101010 Lo0ol_99 STUDENT\n"
+					+ "\n";
+			try {
+				PrintWriter S = new PrintWriter(new File("users.txt"));
+				S.println(o);
+				S.close();
+			} catch(IOException io) {
+				JOptionPane.showMessageDialog(null, "Error starting the program", "Error", 0, null);
+				io.printStackTrace();
+
+			}
 		}
 		return load;
-	}
-	public static void start() {
-		String o ="Ahmed lname 1234567 pAsswor_d ADMIN\n"
-				+ "Mubarak Bin 100053896 passwOrd7! STUDENT\n"
-				+ "a a 1234 Password!9 STUDENT\n"
-				+ "zzzzzzzzzz aaaaaaaaaaa 111111111111111 1qaz!aaaaa52 STUDENT\n"
-				+ "muasssss qwerty 123456789 dkjgndiognA!8 STUDENT\n"
-				+ "mohmed ahmed 789456123 Password!1 STUDENT\n"
-				+ "ahmed almehri 12345432 password_1 STUDENT\n"
-				+ "ahmeddd almehrrri 12342123 password_1 STUDENT\n"
-				+ "fjkdfjkdsjf jdkbgjdkkdjfnje 58955856 password_1 INSTRUCTOR\n"
-				+ "asdfghj xcvbn 123432 Lo0ol_99 STUDENT\n"
-				+ "\n";
-		try {
-			PrintWriter S = new PrintWriter(new File("users.txt"));
-			S.println(o);
-			S.close();
-		}catch(IOException e) {
-			JOptionPane.showMessageDialog(null, "Error starting the program", "Error", 0, null);
-			e.printStackTrace();
-
-		}
 	}
 	@Override
 	public String toString() {
@@ -137,6 +151,27 @@ public class Users {
 	}
 	public void setOccupation(String oc) {
 		this.occupation=oc;
+	}
+	/*
+	 * return the number of users
+	 */
+	public int getFaculty() {
+		Vector<Users> users = new Vector<>();
+		users= getUsers();
+		int count = 0,len = users.size();
+		for(int i = 0; i<len;i++)
+			if(users.elementAt(i).getOccupation().equals("ADMIN")||users.elementAt(i).getOccupation().equals("INSTRUCTOR"))
+				count++;
+		return count;
+	}
+	public int getStudents() {
+		Vector<Users> users = new Vector<>();
+		users= getUsers();
+		int count = 0,len = users.size();
+		for(int i = 0; i<len;i++)
+			if(users.elementAt(i).getOccupation().equals("STUDENT"))
+				count++;
+		return count;
 	}
 
 }
