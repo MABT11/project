@@ -27,6 +27,8 @@ public class AdminPage extends JFrame implements ActionListener, MouseListener {
 	
 	public AdminPage(){
 		
+		users.getUsers();
+		
 		setTitle("Banner Self Service");
 		try {
 			setIconImage(ImageIO.read(new File("ku.png")));

@@ -36,7 +36,9 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 	private JLabel messageLabel = new JLabel();
 	private Users users = new Users();
 
+
 	public LoginPage(){
+		
 		
 		setTitle("Login");
 		try {
@@ -139,6 +141,7 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 	public boolean log() {
 		if(userIDField.getText().isEmpty() || String.valueOf(userPasswordField.getPassword()).isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Id and or password fields should not be empty", "Registration Unuccessful", JOptionPane.ERROR_MESSAGE);
+			return false;
 		}
 		
 		Vector<Users> temp = new Vector<Users>();
@@ -147,27 +150,26 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		for(int i= 0;i<len;i++) {
 			if(temp.elementAt(i).getID().equals(userIDField.getText().trim())) {
 				if(temp.elementAt(i).getPassword().equals(String.valueOf(userPasswordField.getPassword()))) {
-					if(temp.elementAt(i).getOccupation().equals("ADMIN")) {
+					if(temp.elementAt(i).getOccupation().equals(Main.type.ADMIN.name())) {
 						new AdminPage();
 						dispose();
 						return true;
 					}
-					if(temp.elementAt(i).getOccupation().equals("STUDENT")) {
+					if(temp.elementAt(i).getOccupation().equals(Main.type.STUDENT.name())) {
 						new StudentPage();
 						dispose();
 						return true;
 					}
-					if(temp.elementAt(i).getOccupation().equals("INSTRUCTOR")) {
+					if(temp.elementAt(i).getOccupation().equals(Main.type.INSTRUCTOR.name())) {
 						new InstructorPage();
 						dispose();
 						return true;
 					}
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "Passsword Incorrect","Error",0);
-				}
+				}	
 			}
 		}
+		JOptionPane.showMessageDialog(null, "ID or Password is incorrect","Error",0); 
+		
 		return false;
 	}
 

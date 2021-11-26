@@ -80,23 +80,19 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 		s = users.getUsers();
 		int len =s.size();
 		int count = 0;
-		for(int i = 0; i<len;i++) {
-			if(s.elementAt(i).getOccupation().trim().equals("STUDENT")) {
+		for(int i = 0; i<len;i++) 
+			if(s.elementAt(i).getOccupation().trim().equals(Main.type.STUDENT.name())) 
 				count++;
-			}
-		}
+			
 		Object[][] students =new Object[count][3];
 		for(int i = 0; i < count;i++) {
 			for(int j = 0; j < len; j++) {
-				if(s.elementAt(j).getOccupation().trim().equals("STUDENT")) {
+				if(s.elementAt(j).getOccupation().trim().equals(Main.type.STUDENT.name())) {
 					students[i][0]=s.elementAt(j).getID();
 					students[i][1]=s.elementAt(j).getFirstName()+" "+s.elementAt(j).getLastName();
 					students[i][2]=s.elementAt(j).getPassword();
 					s.removeElementAt(j);
 					break;
-				}
-				else {
-					continue;
 				}
 			}
 		}
@@ -105,13 +101,16 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 		 */
 		table = new JTable(new DefaultTableModel(students,colName)){
 		    @Override					// set all cells to uneditable
-		    public boolean isCellEditable(int row, int column) {return false;}};
-		table.setPreferredScrollableViewportSize(new Dimension(400+len, 320));
+		    public boolean isCellEditable(int row, int column) {
+		    	return false;
+		    }};
+		table.setPreferredScrollableViewportSize(new Dimension(200, 250));
 		/*
 		 * adding it to jscroll and adding the sorting functionality
 		 */
 		table.setFillsViewportHeight(true);
 		table.setAutoCreateRowSorter(true);
+
 		JScrollPane scroll = new JScrollPane(table);
 		/*
 		 * creating the search option
@@ -128,7 +127,7 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
 		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Add drop students"));
 		//to span horizontally
-		constraints.fill =  GridBagConstraints.HORIZONTAL;
+		constraints.fill =  GridBagConstraints.BOTH;
 
 		/*
 		 * adding components to the panel
@@ -154,7 +153,8 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 		getContentPane().add(panel);
 		pack();
 		setLocationRelativeTo(null);
-//		setMinimumSize(new Dimension(580, 500));
+		//#cols,#rows
+		setMinimumSize(new Dimension(420, 420));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
@@ -168,7 +168,6 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 			new AdminPage();
 			dispose();
 		}
-		
 	}
 	/*
 	 * mouse actions for hyperlink text
@@ -230,5 +229,4 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 		// TODO Auto-generated method stub
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
-
 }

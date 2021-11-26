@@ -26,12 +26,14 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 	private JLabel addLabel = new JLabel("Add");
 	private JLabel removeLabel = new JLabel("Remove");
 	private JLabel modifyLabel = new JLabel("Modify");
-
-	private JPanel panel = new JPanel(new GridBagLayout());
+	
+	private GridBagLayout gbl_panel = new GridBagLayout();
+	private JPanel panel = new JPanel(gbl_panel);
 	private JTable table;
 	private JTextField filter = new JTextField(30);
 	private TableRowSorter<TableModel> rowSorter;
 	public AddDropInstructor(){
+		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0};
 		setTitle("Banner Self Service");
 		try {
 			setIconImage(ImageIO.read(new File("ku.png")));
@@ -46,7 +48,7 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		backButton.addActionListener(this);
 		
 		filter.getDocument().addDocumentListener(this);
-		
+		filter.setToolTipText("Search for instructors by name, id, courses");
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.insets = new Insets(10, 10, 10, 10);
@@ -73,17 +75,14 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		s = users.getUsers();
 		int len =s.size();
 		int count = 0;
-		for(int i = 0; i<len;i++) {
-			if(s.elementAt(i).getOccupation().trim().equals("INSTRUCTOR")) {
+		for(int i = 0; i<len;i++) 
+			if(s.elementAt(i).getOccupation().trim().equals(Main.type.INSTRUCTOR.name())) 
 				count++;
-//				System.out.println(s.elementAt(i).getOccupation().trim());
-			}
-//			System.out.println(s.elementAt(i).toString());
-		}
+		
 		Object[][] students =new Object[count][3];
 		for(int i = 0; i < count;i++) {
 			for(int j = 0; j < len; j++) {
-				if(s.elementAt(j).getOccupation().trim().equals("INSTRUCTOR")) {
+				if(s.elementAt(j).getOccupation().trim().equals(Main.type.INSTRUCTOR.name())) {
 					students[i][0]=s.elementAt(j).getID();
 					students[i][1]=s.elementAt(j).getFirstName()+" "+s.elementAt(j).getLastName();
 					students[i][2]=s.elementAt(j).getPassword();
@@ -100,8 +99,10 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		 */
 		table = new JTable(new DefaultTableModel(students,colName)){
 		    @Override					// set all cells to uneditable
-		    public boolean isCellEditable(int row, int column) {return false;}};
-		table.setPreferredScrollableViewportSize(new Dimension(400+len, 320));
+		    public boolean isCellEditable(int row, int column) {
+		    	return false;
+		    	}};
+		table.setPreferredScrollableViewportSize(new Dimension(200, 250));
 		/*
 		 * adding it to jscroll and adding the sorting functionality
 		 */
@@ -122,7 +123,7 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		panel.setBorder(BorderFactory.createEtchedBorder());
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
 		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Add drop instructors"));
-		constraints.fill =  GridBagConstraints.VERTICAL;
+		constraints.fill =  GridBagConstraints.BOTH;
 		/*
 		 * adding components to the panel
 		 */
@@ -130,14 +131,16 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
         constraints.gridy = 0;
 		panel.add(backButton,constraints);
 		constraints.gridx = 1;
-		panel.add(filter);
+		panel.add(filter,constraints);
 		constraints.gridx = 0;
 		constraints.gridy = 2;
 		panel.add(addLabel,constraints);
 		constraints.gridx = 1;
+		constraints.gridheight = 100;
 		panel.add(scroll,constraints);
         constraints.gridx = 0;
 		constraints.gridy = 3;
+		constraints.gridheight = 1;
 		panel.add(removeLabel,constraints);
 		constraints.gridx = 0;
 		constraints.gridy = 4;
@@ -145,7 +148,8 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		add(panel);
 		pack();
 		setLocationRelativeTo(null);
-		setMinimumSize(new Dimension(580, 500));
+		//#cols,#rows
+		setMinimumSize(new Dimension(300, 250));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}

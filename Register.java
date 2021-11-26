@@ -186,10 +186,10 @@ public class Register extends JFrame implements ActionListener{
 			return false;
 		}
 		if(studentRadioButton.isSelected()) {
-			occupation = new String("STUDENT");
+			occupation = new String(Main.type.STUDENT.name());
 		}
 		else if(instructorRadioButton.isSelected()) {
-			occupation= new String("INSTRUCTOR");
+			occupation= new String(Main.type.INSTRUCTOR.name());
 		}
 		/* to verify username is in the vector or not there
 		 * if the user is already in there display error message

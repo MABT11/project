@@ -69,49 +69,64 @@ public class Users {
 		 * read from the file
 		 */
 		try {
-			Scanner read = new Scanner(new File("users.txt"));
+			File users = new File("users.txt");
+			Scanner read = new Scanner(users);
 			while (read.hasNext()) {
 				
 				load.add(new Users(read.next(), read.next(), read.next(), read.next(), read.next()));
 			}
+			/*
+			 * if the file exists but its empty add users to the file
+			 */
+			if(users.length()<100) {
+				addUsersFile();
+			}
 			read.close();
 			/*
-			 * if the file was not found create a file
+			 * if the file was not found create a file and add users to the file
 			 */
 		} catch (FileNotFoundException e) {
-			String o ="Ahmed lname 1234567 pAsswor_d ADMIN\n"
-					+ "Mubarak Bin 100053896 passwOrd7! STUDENT\n"
-					+ "naser bdr 40004 password_1 INSTRUCTOR\n"
-					+ "khalid mohsen 1234 Password!9 STUDENT\n"
-					+ "mohmmed ali 11111 1qz!aa52 STUDENT\n"
-					+ "muasssss qwerty 123456789 dkjgndiognA!8 STUDENT\n"
-					+ "mohmed ahmed 789456123 Password!1 STUDENT\n"
-					+ "alia almehri 12345432 password_1 STUDENT\n"
-					+ "tom tony 12342123 password_1 STUDENT\n"
-					+ "salem labeb 58955856 password_1 INSTRUCTOR\n"
-					+ "awadh saif 123432 Lad0k$ STUDENT\n"
-					+ "adel khalifa 12222 1_drowssap STUDENT\n"
-					+ "yazan almousabi 13333 roopOd_1 STUDENT\n"
-					+ "naser bdr 44444 password_1 INSTRUCTOR\n"
-					+ "mosab hamza 66666 Hello_its3 STUDENT\n"
-					+ "hamdan alhmadi 77711 me_lo923 STUDENT\n"
-					+ "naser bdr 471352 password_1 INSTRUCTOR\n"
-					+ "adbullah omar 88888 qwerty_1 STUDENT\n"
-					+ "jamal tariq 99999 asdfgh0$ STUDENT\n"
-					+ "naser bdr 456980 password_1 INSTRUCTOR\n"
-					+ "abdulrhman abbas 101010 Lo0ol_99 STUDENT\n"
-					+ "\n";
-			try {
-				PrintWriter S = new PrintWriter(new File("users.txt"));
-				S.println(o);
-				S.close();
-			} catch(IOException io) {
-				JOptionPane.showMessageDialog(null, "Error starting the program", "Error", 0, null);
-				io.printStackTrace();
-
-			}
+			addUsersFile();
+			// a little bit of recursion to save the day
+			return getUsers();
 		}
 		return load;
+	}
+	/*
+	 * If the file is empty or if the file DNE then write users to the  file
+	 */
+	public void addUsersFile() {
+		String o ="Ahmed lname 1234567 pAsswor_d ADMIN\n"
+				+ "Mubarak Bin 100053896 passwOrd7! STUDENT\n"
+				+ "naser bdr 40004 password_1 INSTRUCTOR\n"
+				+ "khalid mohsen 1234 Password!9 STUDENT\n"
+				+ "mohmmed ali 11111 1qz!aa52 STUDENT\n"
+				+ "muasssss qwerty 123456789 dkjgndiognA!8 STUDENT\n"
+				+ "mohmed ahmed 789456123 Password!1 STUDENT\n"
+				+ "alia almehri 12345432 password_1 STUDENT\n"
+				+ "tom tony 12342123 password_1 STUDENT\n"
+				+ "salem labeb 58955856 password_1 INSTRUCTOR\n"
+				+ "awadh saif 123432 Lad0k$ STUDENT\n"
+				+ "adel khalifa 12222 1_drowssap STUDENT\n"
+				+ "yazan almousabi 13333 roopOd_1 STUDENT\n"
+				+ "naser bdr 44444 password_1 INSTRUCTOR\n"
+				+ "mosab hamza 66666 Hello_its3 STUDENT\n"
+				+ "hamdan alhmadi 77711 me_lo923 STUDENT\n"
+				+ "naser bdr 471352 password_1 INSTRUCTOR\n"
+				+ "adbullah omar 88888 qwerty_1 STUDENT\n"
+				+ "jamal tariq 99999 asdfgh0$ STUDENT\n"
+				+ "naser bdr 456980 password_1 INSTRUCTOR\n"
+				+ "abdulrhman abbas 101010 Lo0ol_99 STUDENT\n"
+				+ "abdulrhman abbas 101010 L23456 ADMIN";
+		try {
+			PrintWriter S = new PrintWriter(new File("users.txt"));
+			S.println(o);
+			S.close();
+		} catch(IOException io) {
+			JOptionPane.showMessageDialog(null, "Error starting the program", "Error", 0, null);
+			io.printStackTrace();
+
+		}
 	}
 	@Override
 	public String toString() {
