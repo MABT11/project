@@ -30,6 +30,8 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 	private JTable table;
 	private JTextField filter;
 	private TableRowSorter<TableModel> rowSorter;
+	private DefaultTableModel model;
+	private JScrollPane scroll;
 	
 	public AddDropInstructor(){
 		
@@ -45,9 +47,6 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		
 		filter.getDocument().addDocumentListener(this);
 		filter.setToolTipText("Search for instructors by name, id, courses");
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.anchor = GridBagConstraints.WEST;
-		constraints.insets = new Insets(10, 10, 10, 10);
 		
 		addLabel.setForeground(Color.BLUE.darker());
 		addLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -71,7 +70,8 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		/*
 		 * creating the table and configuring its dimensions
 		 */
-		table = new JTable(new DefaultTableModel(users.getInstructorInfo(),colName)){
+		model = new DefaultTableModel(users.getInstructorInfo(),colName);
+		table = new JTable(model){
 		    @Override					// set all cells to uneditable
 		    public boolean isCellEditable(int row, int column) {
 		    	return false;
@@ -82,7 +82,7 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		 */
 		table.setFillsViewportHeight(true);
 		table.setAutoCreateRowSorter(true);
-		JScrollPane scroll = new JScrollPane(table);
+		scroll = new JScrollPane(table);
 		/*
 		 * creating the search option
 		 */
@@ -97,10 +97,41 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		panel.setBorder(BorderFactory.createEtchedBorder());
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
 		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Add drop instructors"));
+		
+		addComponents();
+		pack();
+		setLocationRelativeTo(null);
+		//#cols,#rows
+		setMinimumSize(new Dimension(300, 250));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+	}
+	/*
+	 * Initializing all attributes
+	 */
+	private void init() {
+		
+		 backButton = new JButton("Back");
+		 addLabel = new JLabel("Add");
+		 removeLabel = new JLabel("Remove");
+		 modifyLabel = new JLabel("Modify");
+		
+		 gbl_panel = new GridBagLayout();
+		 
+		 panel = new JPanel(gbl_panel);
+		 
+		 filter = new JTextField(30);
+	}
+	/*
+	 * adding components to the panel
+	 */
+	private void addComponents() {
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.anchor = GridBagConstraints.WEST;
+		constraints.insets = new Insets(10, 10, 10, 10);
+		
 		constraints.fill =  GridBagConstraints.BOTH;
-		/*
-		 * adding components to the panel
-		 */
+		
 		constraints.gridx = 0;
         constraints.gridy = 0;
 		panel.add(backButton,constraints);
@@ -120,28 +151,7 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		constraints.gridy = 4;
 		panel.add(modifyLabel,constraints);
 		add(panel);
-		pack();
-		setLocationRelativeTo(null);
-		//#cols,#rows
-		setMinimumSize(new Dimension(300, 250));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
-	}
-	/*
-	 * Initializing all attributes
-	 */
-	public void init() {
-		
-		 backButton = new JButton("Back");
-		 addLabel = new JLabel("Add");
-		 removeLabel = new JLabel("Remove");
-		 modifyLabel = new JLabel("Modify");
-		
-		 gbl_panel = new GridBagLayout();
-		 
-		 panel = new JPanel(gbl_panel);
-		 
-		 filter = new JTextField(30);
+	
 	}
 	/*
 	 * button events
@@ -208,12 +218,10 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
         } else {
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
         }
-		
 	}
 	@Override
 	public void changedUpdate(DocumentEvent e) {
 		// TODO Auto-generated method stub
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
-
 }

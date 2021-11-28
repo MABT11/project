@@ -13,35 +13,34 @@ import javax.swing.table.*;
 
 public class CoursesPage extends JFrame implements ActionListener, MouseListener, DocumentListener{
 
-	private JButton backButton = new JButton("Back");
-	private JLabel addLabel = new JLabel("Add");
-	private JLabel removeLabel = new JLabel("Remove");
-	private JLabel modifyLabel = new JLabel("Modify");
+	private JButton backButton;
+	private JLabel addLabel;
+	private JLabel removeLabel;
+	private JLabel modifyLabel;
 
-	private GridBagLayout gbl_panel = new GridBagLayout();
-	private JPanel panel = new JPanel(gbl_panel);
+	private GridBagLayout gbl_panel;
+	private JPanel panel;
 	private JTable table;
 	//search bar
-	private JTextField filter = new JTextField(30);
+	private JTextField filter;
 	//for the table sort when clicking the headers of the table
 	private TableRowSorter<TableModel> rowSorter;
-	
+	private JScrollPane scroll;
+	private DefaultTableModel model;
+
 	public CoursesPage(){
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0};
 		setTitle("Banner Self Service");
 		setIconImage(Main.getIcon());
 		
-		
+		init();
+		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0};
 		//square box around the word
 		backButton.setFocusable(false);
 		//to add functionality to the box
 		backButton.addActionListener(this);
+		
 		//to add the dynamic search update while typing
 		filter.getDocument().addDocumentListener(this);
-		
-		GridBagConstraints constraints = new GridBagConstraints();
-//		constraints.anchor = GridBagConstraints.WEST;
-		constraints.insets = new Insets(10, 10, 10, 10);
 		
 		addLabel.setForeground(Color.BLUE.darker());
 		addLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -64,7 +63,8 @@ public class CoursesPage extends JFrame implements ActionListener, MouseListener
 		/*
 		 * creating the table and configuring its dimensions
 		 */
-		table = new JTable(new DefaultTableModel(courses.coursesInfo(),colName)){
+		model = new DefaultTableModel(courses.coursesInfo(),colName);
+		table = new JTable(model){
 		    @Override					// set all cells to uneditable
 		    public boolean isCellEditable(int row, int column) {
 		    	return false;
@@ -75,7 +75,7 @@ public class CoursesPage extends JFrame implements ActionListener, MouseListener
 		 */
 		table.setFillsViewportHeight(true);
 		table.setAutoCreateRowSorter(true);
-		JScrollPane scroll = new JScrollPane(table);
+		scroll = new JScrollPane(table);
 		/*
 		 * creating the search option
 		 */
@@ -90,12 +90,40 @@ public class CoursesPage extends JFrame implements ActionListener, MouseListener
 		panel.setBorder(BorderFactory.createEtchedBorder());
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
 		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Courses"));
+
+		addComponents();
+		pack();
+		setLocationRelativeTo(null);
+		setMinimumSize(new Dimension(880, 500));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+	}
+	/*
+	 * Initializing all attributes
+	 */
+	private void init() {
+		
+		 backButton = new JButton("Back");
+		 addLabel = new JLabel("Add");
+		 removeLabel = new JLabel("Remove");
+		 modifyLabel = new JLabel("Modify");
+		
+		 gbl_panel = new GridBagLayout();
+		 
+		 panel = new JPanel(gbl_panel);
+		 
+		 filter = new JTextField(30);
+	}
+	/*
+	 * adding components to the panel
+	 */
+	private void addComponents() {
 		//to span horizontally
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.anchor = GridBagConstraints.WEST;
+		constraints.insets = new Insets(10, 10, 10, 10);
 		constraints.fill =  GridBagConstraints.HORIZONTAL;
 
-		/*
-		 * adding components to the panel
-		 */
 		constraints.gridx = 0;
         constraints.gridy = 0;
 		panel.add(backButton,constraints);
@@ -114,12 +142,7 @@ public class CoursesPage extends JFrame implements ActionListener, MouseListener
 		constraints.gridx = 0;
 		constraints.gridy = 4;
 		panel.add(modifyLabel,constraints);
-		getContentPane().add(panel);
-		pack();
-		setLocationRelativeTo(null);
-		setMinimumSize(new Dimension(880, 500));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
+		getContentPane().add(panel);	
 	}
 	/*
 	 * button events
@@ -156,7 +179,6 @@ public class CoursesPage extends JFrame implements ActionListener, MouseListener
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 	/* 
@@ -165,7 +187,7 @@ public class CoursesPage extends JFrame implements ActionListener, MouseListener
 	 */
 	@Override
 	public void insertUpdate(DocumentEvent e) {
-		// TODO Auto-generated method stub
+
 		String text = filter.getText();
 
         if (text.trim().length() == 0) {
@@ -177,7 +199,7 @@ public class CoursesPage extends JFrame implements ActionListener, MouseListener
 	}
 	@Override
 	public void removeUpdate(DocumentEvent e) {
-		// TODO Auto-generated method stub
+		
 		String text = filter.getText();
 
         if (text.trim().length() == 0) {
@@ -189,9 +211,6 @@ public class CoursesPage extends JFrame implements ActionListener, MouseListener
 	}
 	@Override
 	public void changedUpdate(DocumentEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
-
-
 }

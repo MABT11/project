@@ -20,6 +20,7 @@ import javax.swing.table.TableRowSorter;
 public class AddDropStudents extends JFrame implements ActionListener, MouseListener, DocumentListener{
 
 	private JButton backButton;
+	
 	private JLabel addLabel;
 	private JLabel removeLabel;
 	private JLabel modifyLabel;
@@ -28,7 +29,7 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 	private JPanel panel;
 	private JTable table;
 	//search bar
-	private JTextField filter = new JTextField(30);
+	private JTextField filter;
 	//for the table sort when clicking the headers of the table
 	private TableRowSorter<TableModel> rowSorter;
 	private DefaultTableModel model;

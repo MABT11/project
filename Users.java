@@ -206,16 +206,16 @@ public class Users implements Info{
 		s = getUsers();
 		int len =s.size();
 		int count = getStudents();
-		
+		int prev =0;
 		Object[][] students =new Object[count][3];
 		for(int i = 0; i < count;i++) {
-			for(int j = 0; j < len; j++) {
+			for(int j = prev; j < len; j++) {
 				if(s.elementAt(j).getOccupation().trim().equals(Occupation.STUDENT.name())) {
 					students[i][0]=s.elementAt(j).getID();
 					students[i][1]=s.elementAt(j).getFirstName()+" "+s.elementAt(j).getLastName();
 					students[i][2]=s.elementAt(j).getPassword();
-					j++;
-					i++;
+					prev=++j;
+					break;
 				}
 			}
 		}
@@ -230,16 +230,16 @@ public class Users implements Info{
 		s = getUsers();
 		int len = s.size();
 		int count = getInstructors();
-		
+		int prev =0;
 		Object[][] instructors =new Object[count][3];
 		for(int i = 0; i < count;i++) {
-			for(int j = 0; j < len; j++) {
+			for(int j = prev; j < len; j++) {
 				if(s.elementAt(j).getOccupation().trim().equals(Occupation.INSTRUCTOR.name())) {
 					instructors[i][0]=s.elementAt(j).getID();
 					instructors[i][1]=s.elementAt(j).getFirstName()+" "+s.elementAt(j).getLastName();
 					instructors[i][2]=s.elementAt(j).getPassword();
-					j++;
-					i++;
+					prev=++j;
+					break;
 				}
 			}
 		}
@@ -260,6 +260,5 @@ public class Users implements Info{
 	}
 	public void setOccupation(String oc) {
 		this.occupation=oc;
-	}
-	
+	}	
 }

@@ -53,9 +53,33 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Login"));
 		
 		showPasswordCheckBox.setBackground(panel.getBackground());
+		
+		addComponents();
+		pack();
 		/*
-		 * adding the componants to the window 
+		 * window configurations
 		 */
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setMinimumSize(new Dimension(380, 320));
+		setLocationRelativeTo(null);
+		setVisible(true);
+	}
+	/*
+	 * Initializing all attributes
+	 */
+	private void init() {
+		loginButton = new JButton("Login");
+		panel = new JPanel(new GridBagLayout());
+		idField = new JTextField(20);
+		passwordField= new JPasswordField(20);
+		idLabel= new JLabel("User ID:");
+		passwordLabel = new JLabel("Password:"); 
+		showPasswordCheckBox = new JCheckBox("Show Password");
+	}
+	/*
+	 * adding the componants to the window 
+	 */
+	private void addComponents() {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.insets = new Insets(10, 10, 10, 10);
@@ -79,25 +103,7 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
         constraints.gridy = 3;
 		panel.add(loginButton, constraints);
 		add(panel);
-		/*
-		 * window configurations
-		 */
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setMinimumSize(new Dimension(380, 320));
-		pack();
-		setLocationRelativeTo(null);
-		setVisible(true);
 	}
-	private void init() {
-		loginButton = new JButton("Login");
-		panel = new JPanel(new GridBagLayout());
-		idField = new JTextField(20);
-		passwordField= new JPasswordField(20);
-		idLabel= new JLabel("User ID:");
-		passwordLabel = new JLabel("Password:"); 
-		showPasswordCheckBox = new JCheckBox("Show Password");
-	}
-	
 	/*
 	 * Adding life to the program
 	 */

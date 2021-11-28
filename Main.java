@@ -22,21 +22,21 @@ public class Main {
 		 */
 		try {
 			bufferedImage = ImageIO.read(new File("kulogo.png"));
-		} catch (IOException f) {
-			System.out.println("You don't have ku logo on the current directory");
+			} catch (IOException io) {
+			System.out.println("You don't have ku logo on the current directory ");
+			try{
+				bufferedImage = ImageIO.read(new URL("https://media.glassdoor.com/sqll/500688/khalifa-university-squarelogo-1555333009225.png"));
+			}catch(IOException e) {
+				System.out.println("You don't have internet connection and you don't have kulogo.png file");
+			}
 		}
+		
+		
 		try {
-			bufferedImage = ImageIO.read(new URL("https://media.glassdoor.com/sqll/500688/khalifa-university-squarelogo-1555333009225.png"));
-		}
-		catch(IOException io) {
-			System.out.println("You are not connected to the internet");
-		}
-//		
-//		try {
-//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 		 /*
          * For thread safety only
          */
@@ -44,12 +44,12 @@ public class Main {
            @Override
            public void run() {
       	  
-//        	   new LoginPage();
+        	   new LoginPage();
 //        	   new AddDropStudents();
 //        	   new AddDropInstructor();
 //        	   new Register();
 //        	   new AdminPage();
-        	   new CoursesPage();
+//        	   new CoursesPage();
            }
        });
 	}
