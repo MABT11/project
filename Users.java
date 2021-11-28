@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,7 +8,7 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
-public class Users {
+public class Users implements Info{
 	
 	private String firstName;
 	private String lastName;
@@ -39,28 +38,11 @@ public class Users {
 			int len = save.size();
 			for(int i = 0;i<len;i++) {
 				S.println(save.elementAt(i).getFirstName()+" "+save.elementAt(i).getLastName()+" "+save.elementAt(i).getID()+" "+save.elementAt(i).getPassword()+" "+save.elementAt(i).getOccupation());
-				System.out.println(save.elementAt(i).getFirstName()+" "+save.elementAt(i).getLastName()+" "+save.elementAt(i).getID()+" "+save.elementAt(i).getPassword()+" "+save.elementAt(i).getOccupation());
 			}
 			S.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	//save new users to vector of type user
-	public void saveUsersObj(Vector<Users> save) {
-		
-		Vector<Users> load = new Vector<Users>();
-		int len = save.size();
-		for(int i = 0; i < len;i++) {
-			load.add(new Users(
-					save.elementAt(i).getFirstName(),
-					save.elementAt(i).getLastName(),
-					save.elementAt(i).getID(),
-					save.elementAt(i).getPassword(),
-					save.elementAt(i).getOccupation()
-					));
-		}
-		saveUsers(save);
 	}
 	//read the users from the file to and store them in the vector of type users
 	public Vector<Users> getUsers() {
@@ -98,7 +80,7 @@ public class Users {
 	public void addUsersFile() {
 		String o ="Ahmed lname 1234567 pAsswor_d ADMIN\n"
 				+ "Mubarak Bin 100053896 passwOrd7! STUDENT\n"
-				+ "naser bdr 40004 password_1 INSTRUCTOR\n"
+				+ "sayed nassar 40004 password_1 INSTRUCTOR\n"
 				+ "khalid mohsen 1234 Password!9 STUDENT\n"
 				+ "mohmmed ali 11111 1qz!aa52 STUDENT\n"
 				+ "muasssss qwerty 123456789 dkjgndiognA!8 STUDENT\n"
@@ -112,12 +94,11 @@ public class Users {
 				+ "naser bdr 44444 password_1 INSTRUCTOR\n"
 				+ "mosab hamza 66666 Hello_its3 STUDENT\n"
 				+ "hamdan alhmadi 77711 me_lo923 STUDENT\n"
-				+ "naser bdr 471352 password_1 INSTRUCTOR\n"
+				+ "mamon bek 471352 password_1 INSTRUCTOR\n"
 				+ "adbullah omar 88888 qwerty_1 STUDENT\n"
 				+ "jamal tariq 99999 asdfgh0$ STUDENT\n"
-				+ "naser bdr 456980 password_1 INSTRUCTOR\n"
-				+ "abdulrhman abbas 101010 Lo0ol_99 STUDENT\n"
-				+ "abdulrhman abbas 101010 L23456 ADMIN";
+				+ "elyas zikkos 456980 password_1 INSTRUCTOR\n"
+				+ "abdulrhman abbas 101010 Lo0ol_99 STUDENT";
 		try {
 			PrintWriter S = new PrintWriter(new File("users.txt"));
 			S.println(o);
@@ -125,7 +106,6 @@ public class Users {
 		} catch(IOException io) {
 			JOptionPane.showMessageDialog(null, "Error starting the program", "Error", 0, null);
 			io.printStackTrace();
-
 		}
 	}
 	@Override
@@ -151,6 +131,120 @@ public class Users {
 	public String getOccupation() {
 		return this.occupation;
 	}
+	/*
+	 * return the number of users
+	 */
+	public int getFaculty() {
+		Vector<Users> users = new Vector<Users>();
+		users= getUsers();
+		int count = 0,len = users.size();
+		for(int i = 0; i<len;i++)
+			if(users.elementAt(i).getOccupation().equals(Occupation.ADMIN.name())||users.elementAt(i).getOccupation().equals(Occupation.INSTRUCTOR.name()))
+				count++;
+		return count;
+	}
+	/*
+	 * returns the number of instructors
+	 */
+	public int getInstructors() {
+		Vector<Users> users = new Vector<Users>();
+		users= getUsers();
+		int count = 0,len = users.size();
+		for(int i = 0; i<len;i++)
+			if(users.elementAt(i).getOccupation().equals(Occupation.INSTRUCTOR.name()))
+				count++;
+		return count;
+	}
+	/*
+	 * returns an instructor vector of type users
+	 */
+	public Vector<Users> getInstructorVector() {
+		
+		Vector<Users> instructors = new Vector<Users>();
+		instructors= getUsers();
+		int len = instructors.size();
+		for(int i = 0; i<len;i++)
+			if(instructors.elementAt(i).getOccupation().equals(Occupation.INSTRUCTOR.name()))
+				continue;
+			else
+				instructors.remove(i);
+		return instructors;
+	}
+	/*
+	 * return number of students
+	 */
+	public int getStudents() {
+		Vector<Users> users = new Vector<Users>();
+		users= getUsers();
+		int count = 0,len = users.size();
+		for(int i = 0; i<len;i++)
+			if(users.elementAt(i).getOccupation().equals(Occupation.STUDENT.name()))
+				count++;
+		return count;
+	}
+	/*
+	 * return a student vector of type users
+	 */
+	public Vector<Users> getStudentVector() {
+		
+		Vector<Users> students = new Vector<Users>();
+		students= getUsers();
+		int len = students.size();
+		for(int i = 0; i<len;i++)
+			if(students.elementAt(i).getOccupation().equals(Occupation.STUDENT.name()))
+				continue;
+			else
+				students.remove(i);
+		return students;
+	}
+	/*
+	 * return a 2D-Object with the info of the student for now its being used in the jtable only
+	 */
+	@Override
+	public Object[][] getStudentInfo() {
+		Vector<Users> s =new Vector<Users>();
+		s = getUsers();
+		int len =s.size();
+		int count = getStudents();
+		
+		Object[][] students =new Object[count][3];
+		for(int i = 0; i < count;i++) {
+			for(int j = 0; j < len; j++) {
+				if(s.elementAt(j).getOccupation().trim().equals(Occupation.STUDENT.name())) {
+					students[i][0]=s.elementAt(j).getID();
+					students[i][1]=s.elementAt(j).getFirstName()+" "+s.elementAt(j).getLastName();
+					students[i][2]=s.elementAt(j).getPassword();
+					j++;
+					i++;
+				}
+			}
+		}
+		return students;
+	}
+	/*
+	 * return a 2D object with information on instructors its being used for the instructors in jtable
+	 */
+	@Override
+	public Object[][] getInstructorInfo() {
+		Vector<Users> s =new Vector<Users>();
+		s = getUsers();
+		int len = s.size();
+		int count = getInstructors();
+		
+		Object[][] instructors =new Object[count][3];
+		for(int i = 0; i < count;i++) {
+			for(int j = 0; j < len; j++) {
+				if(s.elementAt(j).getOccupation().trim().equals(Occupation.INSTRUCTOR.name())) {
+					instructors[i][0]=s.elementAt(j).getID();
+					instructors[i][1]=s.elementAt(j).getFirstName()+" "+s.elementAt(j).getLastName();
+					instructors[i][2]=s.elementAt(j).getPassword();
+					j++;
+					i++;
+				}
+			}
+		}
+		return instructors;
+	}
 	//setters methods
 	public void setFirstName(String fname) {
 		this.firstName=fname;
@@ -167,26 +261,5 @@ public class Users {
 	public void setOccupation(String oc) {
 		this.occupation=oc;
 	}
-	/*
-	 * return the number of users
-	 */
-	public int getFaculty() {
-		Vector<Users> users = new Vector<>();
-		users= getUsers();
-		int count = 0,len = users.size();
-		for(int i = 0; i<len;i++)
-			if(users.elementAt(i).getOccupation().equals("ADMIN")||users.elementAt(i).getOccupation().equals("INSTRUCTOR"))
-				count++;
-		return count;
-	}
-	public int getStudents() {
-		Vector<Users> users = new Vector<>();
-		users= getUsers();
-		int count = 0,len = users.size();
-		for(int i = 0; i<len;i++)
-			if(users.elementAt(i).getOccupation().equals("STUDENT"))
-				count++;
-		return count;
-	}
-
+	
 }

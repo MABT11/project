@@ -1,12 +1,8 @@
 /*
- * Login page gui where the users can either register as new user or login to the system
- * currently the login gui is the same for all three types of users small variations
- * need to be made
+ * Login page, where the users needs login to the system and each user type will have his own page
  */
 
 import java.awt.event.*;
-import java.io.*;
-import javax.imageio.ImageIO;
 import java.util.*;
 import java.awt.*;
 import javax.swing.*;
@@ -17,41 +13,30 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 	 * creating the instance variables like the window, buttons, labels, user input 
 	 * buttons
 	 */
-	private JButton loginButton = new JButton("Login");
-	private JPanel panel = new JPanel(new GridBagLayout());
+	private JButton loginButton;
+	private JPanel panel;
 	/*
 	 * fields
 	 */
-	private JTextField userIDField = new JTextField(20);
-	private JPasswordField userPasswordField = new JPasswordField(20);
+	private JTextField idField;
+	private JPasswordField passwordField;
 	/*
 	 * labels
 	 */
-	private JLabel userIDLabel = new JLabel("User ID:");
-	private JLabel userPasswordLabel = new JLabel("Password:");
-	private JCheckBox showPasswordCheckBox = new JCheckBox("Show Password");  
-	/*
-	 * pop message when the user try to sign in
-	 */
-	private JLabel messageLabel = new JLabel();
-	private Users users = new Users();
-
+	private JLabel idLabel;
+	private JLabel passwordLabel;
+	private JCheckBox showPasswordCheckBox;
 
 	public LoginPage(){
 		
-		
+		init();
 		setTitle("Login");
-		try {
-			setIconImage(ImageIO.read(new File("ku.png")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		showPasswordCheckBox.addActionListener(this);
-		userPasswordField.setEchoChar('*');
+		setIconImage(Main.getIcon());
 		
-		//square box around the word
-		messageLabel.setFont(new Font(null,Font.ITALIC,13));
+		showPasswordCheckBox.addActionListener(this);
+		passwordField.setEchoChar('*');
+		passwordField.addKeyListener(this);
+		
 		//to add functionality to the box
 		loginButton.addActionListener(this);
 		loginButton.setFocusable(false);
@@ -59,16 +44,6 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		loginButton.setPreferredSize(new Dimension(78,25));
 		loginButton.setToolTipText("Login");
 		loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-		
-		userPasswordField.addKeyListener(this);
-
-		/*
-		 * adding the componants to the window 
-		 */
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.anchor = GridBagConstraints.WEST;
-		constraints.insets = new Insets(10, 10, 10, 10);
 		
 		panel.setBackground(Color.white);
 		panel.setOpaque(true);
@@ -76,31 +51,33 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		panel.setBorder(BorderFactory.createEtchedBorder());
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
 		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Login"));
+		
 		showPasswordCheckBox.setBackground(panel.getBackground());
+		/*
+		 * adding the componants to the window 
+		 */
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.anchor = GridBagConstraints.WEST;
+		constraints.insets = new Insets(10, 10, 10, 10);
 		constraints.fill =  GridBagConstraints.VERTICAL;
 
 		//to move the buttons on the grid
 		constraints.gridx = 0;
         constraints.gridy = 0;
-		panel.add(userIDLabel, constraints);
+		panel.add(idLabel, constraints);
 		constraints.gridx = 1;
-		panel.add(userIDField, constraints);
+		panel.add(idField, constraints);
 		constraints.gridx = 0;
         constraints.gridy = 1;
-		panel.add(userPasswordLabel, constraints);
+		panel.add(passwordLabel, constraints);
 		constraints.gridx = 1;
-		panel.add(userPasswordField, constraints);
+		panel.add(passwordField, constraints);
 		constraints.gridx = 1;
         constraints.gridy = 2;
 		panel.add(showPasswordCheckBox, constraints);
 		constraints.gridx = 1;
         constraints.gridy = 3;
 		panel.add(loginButton, constraints);
-		constraints.gridx = 0;
-        constraints.gridy = 4;
-		constraints.insets = new Insets(1, 1, 1, 1);
-		//span
-		panel.add(messageLabel, constraints);
 		add(panel);
 		/*
 		 * window configurations
@@ -111,6 +88,16 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
+	private void init() {
+		loginButton = new JButton("Login");
+		panel = new JPanel(new GridBagLayout());
+		idField = new JTextField(20);
+		passwordField= new JPasswordField(20);
+		idLabel= new JLabel("User ID:");
+		passwordLabel = new JLabel("Password:"); 
+		showPasswordCheckBox = new JCheckBox("Show Password");
+	}
+	
 	/*
 	 * Adding life to the program
 	 */
@@ -121,10 +108,10 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		 * and close the current window
 		 */
 		if(showPasswordCheckBox.isSelected()) {
-			userPasswordField.setEchoChar((char)0);
+			passwordField.setEchoChar((char)0);
 		}
 		else{
-			userPasswordField.setEchoChar('*');
+			passwordField.setEchoChar('*');
 		}
 		/*
 		 * if the loginButton was pressed
@@ -139,28 +126,35 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		}
 	}
 	public boolean log() {
-		if(userIDField.getText().isEmpty() || String.valueOf(userPasswordField.getPassword()).isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Id and or password fields should not be empty", "Registration Unuccessful", JOptionPane.ERROR_MESSAGE);
+		/*
+		 * check if the fields are empty or not
+		 */
+		if(idField.getText().isEmpty() || String.valueOf(passwordField.getPassword()).isEmpty()) {
+			JOptionPane.showMessageDialog(null, "ID and or Password should not be empty", "Registration Unuccessful", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		
+		/*
+		 * then check for the input fields if they match the data or not
+		 */
+		Users users = new Users();
 		Vector<Users> temp = new Vector<Users>();
 		temp = users.getUsers();
 		int len = temp.size();
 		for(int i= 0;i<len;i++) {
-			if(temp.elementAt(i).getID().equals(userIDField.getText().trim())) {
-				if(temp.elementAt(i).getPassword().equals(String.valueOf(userPasswordField.getPassword()))) {
-					if(temp.elementAt(i).getOccupation().equals(Main.type.ADMIN.name())) {
+			if(temp.elementAt(i).getID().equals(idField.getText().trim())) {
+				if(temp.elementAt(i).getPassword().equals(String.valueOf(passwordField.getPassword()))) {
+					// check his occupation in order for him to go to his page
+					if(temp.elementAt(i).getOccupation().equals(Occupation.ADMIN.name())) {
 						new AdminPage();
 						dispose();
 						return true;
 					}
-					if(temp.elementAt(i).getOccupation().equals(Main.type.STUDENT.name())) {
+					if(temp.elementAt(i).getOccupation().equals(Occupation.STUDENT.name())) {
 						new StudentPage();
 						dispose();
 						return true;
 					}
-					if(temp.elementAt(i).getOccupation().equals(Main.type.INSTRUCTOR.name())) {
+					if(temp.elementAt(i).getOccupation().equals(Occupation.INSTRUCTOR.name())) {
 						new InstructorPage();
 						dispose();
 						return true;
@@ -168,27 +162,22 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 				}	
 			}
 		}
-		JOptionPane.showMessageDialog(null, "ID or Password is incorrect","Error",0); 
-		
+		JOptionPane.showMessageDialog(null, "ID and or Password is incorrect","Error",0); 
 		return false;
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			log();
-		}
 		
+		if (e.getKeyCode() == KeyEvent.VK_ENTER)
+			log();
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 }

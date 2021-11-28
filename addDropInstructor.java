@@ -3,9 +3,10 @@
  */
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URL;
 import java.util.Vector;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -18,30 +19,25 @@ import javax.swing.table.TableRowSorter;
 //add drop students to the courses
 public class AddDropInstructor extends JFrame implements ActionListener, MouseListener, DocumentListener{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JButton backButton = new JButton("Back");
-	private JLabel addLabel = new JLabel("Add");
-	private JLabel removeLabel = new JLabel("Remove");
-	private JLabel modifyLabel = new JLabel("Modify");
+	private JButton backButton;
 	
-	private GridBagLayout gbl_panel = new GridBagLayout();
-	private JPanel panel = new JPanel(gbl_panel);
+	private JLabel addLabel;
+	private JLabel removeLabel;
+	private JLabel modifyLabel;
+	
+	private GridBagLayout gbl_panel;
+	private JPanel panel;
 	private JTable table;
-	private JTextField filter = new JTextField(30);
+	private JTextField filter;
 	private TableRowSorter<TableModel> rowSorter;
+	
 	public AddDropInstructor(){
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0};
-		setTitle("Banner Self Service");
-		try {
-			setIconImage(ImageIO.read(new File("ku.png")));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
+		setTitle("Banner Self Service");
+		setIconImage(Main.getIcon());
+		
+		init();
+		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0};
 		//square box around the word
 		backButton.setFocusable(false);
 		//to add functionality to the box
@@ -69,35 +65,13 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		 * creating a vector of users to use it in the jtable
 		 * count students assign it to object rows
 		 */
-		String[] colName= {"Name", "ID", "Courses"};
+		String[] colName= {"ID", "Name", "Courses"};
 		Users users = new Users();
-		Vector<Users> s =new Vector<Users>();
-		s = users.getUsers();
-		int len =s.size();
-		int count = 0;
-		for(int i = 0; i<len;i++) 
-			if(s.elementAt(i).getOccupation().trim().equals(Main.type.INSTRUCTOR.name())) 
-				count++;
 		
-		Object[][] students =new Object[count][3];
-		for(int i = 0; i < count;i++) {
-			for(int j = 0; j < len; j++) {
-				if(s.elementAt(j).getOccupation().trim().equals(Main.type.INSTRUCTOR.name())) {
-					students[i][0]=s.elementAt(j).getID();
-					students[i][1]=s.elementAt(j).getFirstName()+" "+s.elementAt(j).getLastName();
-					students[i][2]=s.elementAt(j).getPassword();
-					s.removeElementAt(j);
-					break;
-				}
-				else {
-					continue;
-				}
-			}
-		}
 		/*
 		 * creating the table and configuring its dimensions
 		 */
-		table = new JTable(new DefaultTableModel(students,colName)){
+		table = new JTable(new DefaultTableModel(users.getInstructorInfo(),colName)){
 		    @Override					// set all cells to uneditable
 		    public boolean isCellEditable(int row, int column) {
 		    	return false;
@@ -152,6 +126,22 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		setMinimumSize(new Dimension(300, 250));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
+	}
+	/*
+	 * Initializing all attributes
+	 */
+	public void init() {
+		
+		 backButton = new JButton("Back");
+		 addLabel = new JLabel("Add");
+		 removeLabel = new JLabel("Remove");
+		 modifyLabel = new JLabel("Modify");
+		
+		 gbl_panel = new GridBagLayout();
+		 
+		 panel = new JPanel(gbl_panel);
+		 
+		 filter = new JTextField(30);
 	}
 	/*
 	 * button events

@@ -1,53 +1,41 @@
+
 import java.awt.event.*;
-import java.io.*;
-import java.util.Scanner;
 import java.util.Vector;
 import java.awt.*;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
 public class Register extends JFrame implements ActionListener{
 	
+	private JButton registerButton;
+	private JButton resetButton;
+	private JButton backButton;
 	
-	private JButton registerButton = new JButton("Register");
-	private JButton resetButton = new JButton("Reset");
-	private JButton backButton = new JButton("back");
+	private JTextField idField ;
+	private JTextField firstNameField;
+	private JTextField lastNameField ;
+	private JPasswordField passwordField;
 	
-	private JTextField userIDField = new JTextField(20);
-	private JTextField firstNameField = new JTextField(20);
-	private JTextField lastNameField = new JTextField(20);
-	private JPasswordField userPasswordField = new JPasswordField(20);
+	private JLabel idLabel;
+	private JLabel firstNamelabel;
+	private JLabel lastNamelabel;
+	private JLabel passwordLabel;
+	private JLabel messageLabel;
 	
-	private JLabel userIDLabel = new JLabel("ID:");
-	private JLabel firstNamelabel = new JLabel("First name:");
-	private JLabel lastNamelabel = new JLabel("Last name:");
-	private JLabel userPasswordLabel = new JLabel("Password:");
-	private JLabel messageLabel = new JLabel("");
+	private JRadioButton studentRadioButton;
+    private JRadioButton instructorRadioButton;
+    private ButtonGroup group;
+    
+    private JPanel panel;
+	private JCheckBox showPasswordCheckBox;  
 	
-	private JRadioButton studentRadioButton = new JRadioButton("Student");
-    private JRadioButton instructorRadioButton=new JRadioButton("Instructor");
-    private ButtonGroup group = new ButtonGroup();
-	
-    private Users users = new Users();
-    private String occupation=null,lname=null,fname=null,password=null,userid=null;
-    private Vector<Users> temp;
-    private JPanel panel = new JPanel(new GridBagLayout());
-	private JCheckBox showPasswordCheckBox = new JCheckBox("Show Password");  
-	
-
 	public Register() {
+		
 		setTitle("Register");
+		setIconImage(Main.getIcon());
 		
-		try {
-			setIconImage(ImageIO.read(new File("ku.png")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		init();
 		
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.anchor = GridBagConstraints.WEST;
-		constraints.insets = new Insets(10, 10, 10, 10);
 		panel.setBackground(Color.white);
 		panel.setOpaque(true);
 		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
@@ -72,7 +60,7 @@ public class Register extends JFrame implements ActionListener{
 		backButton.addActionListener(this);
 		
 		showPasswordCheckBox.addActionListener(this);
-		userPasswordField.setEchoChar('*');
+		passwordField.setEchoChar('*');
 		
 		studentRadioButton.addActionListener(this);
 		instructorRadioButton.addActionListener(this);
@@ -81,6 +69,49 @@ public class Register extends JFrame implements ActionListener{
 		group.add(instructorRadioButton);
 		group.add(studentRadioButton);
 
+		addComponents();
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pack();
+		setMinimumSize(new Dimension(550, 450));
+		setLocationRelativeTo(null);
+		setVisible(true);	
+	}
+	/*
+	 * Initializing all attributes
+	 */
+	public void init() {
+		
+		backButton= new JButton("Back");
+		registerButton = new JButton("Register");
+		resetButton= new JButton("Reset");
+		
+		idField  = new JTextField(20);
+		firstNameField = new JTextField(20);
+		lastNameField = new JTextField(20);
+		passwordField = new JPasswordField(20);
+		
+		idLabel = new JLabel("ID:");
+		firstNamelabel = new JLabel("First name:");
+		lastNamelabel = new JLabel("Last name:");
+		passwordLabel = new JLabel("Password:");
+		messageLabel = new JLabel("");
+		
+		studentRadioButton = new JRadioButton("Student");
+	    instructorRadioButton=new JRadioButton("Instructor");
+	    group = new ButtonGroup();
+		
+	    showPasswordCheckBox = new JCheckBox("Show Password");  
+		
+		panel = new JPanel(new GridBagLayout());
+	}
+	/*
+	 * adding component to the frame
+	 */
+	public void addComponents() {
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.anchor = GridBagConstraints.WEST;
+		constraints.insets = new Insets(10, 10, 10, 10);
 		
 		constraints.gridx = 0;
         constraints.gridy = 0;
@@ -101,14 +132,14 @@ public class Register extends JFrame implements ActionListener{
 		panel.add(lastNameField,constraints);
 		constraints.gridx = 0;
 		constraints.gridy = 3;
-		panel.add(userIDLabel,constraints);
+		panel.add(idLabel,constraints);
 		constraints.gridx = 1;
-		panel.add(userIDField,constraints);
+		panel.add(idField,constraints);
 		constraints.gridx = 0;
 		constraints.gridy = 4;
-		panel.add(userPasswordLabel,constraints);
+		panel.add(passwordLabel,constraints);
 		constraints.gridx = 1;
-		panel.add(userPasswordField,constraints);
+		panel.add(passwordField,constraints);
 		constraints.gridx=2;
 		panel.add(messageLabel,constraints);
 		constraints.gridx = 1;
@@ -121,20 +152,13 @@ public class Register extends JFrame implements ActionListener{
 		constraints.gridx = 1;
 		panel.add(registerButton,constraints);
 		add(panel);
-		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		pack();
-		setMinimumSize(new Dimension(550, 450));
-		setLocationRelativeTo(null);
-		setVisible(true);	
 	}
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//reset button was clicked
 		if(e.getSource()==resetButton) {
-			userIDField.setText("");
-			userPasswordField.setText("");
+			idField.setText("");
+			passwordField.setText("");
 			firstNameField.setText("");
 			lastNameField.setText("");
 		}
@@ -153,18 +177,18 @@ public class Register extends JFrame implements ActionListener{
 			}
 		}
 		if(showPasswordCheckBox.isSelected()) {
-			userPasswordField.setEchoChar((char)0);
+			passwordField.setEchoChar((char)0);
 		}
 		else{
-			userPasswordField.setEchoChar('*');
+			passwordField.setEchoChar('*');
 		}
 	}
 	public boolean register() {
-		fname = firstNameField.getText().strip().replace(" ", "");
-		lname = lastNameField.getText().strip().replace(" ", "");
-		userid = userIDField.getText().strip();
-		password = String.valueOf(userPasswordField.getPassword());
-		System.out.println("first name:"+fname+"\nlast name"+lname);
+		String fname = firstNameField.getText().strip().replace(" ", "");
+		String lname = lastNameField.getText().strip().replace(" ", "");
+		String userid = idField.getText().strip().replace(" ", "");
+		String password = String.valueOf(passwordField.getPassword());
+		String occupation=null;
 		/*
 		 * First check if the user filled the boxes with his credentials
 		 */
@@ -186,26 +210,28 @@ public class Register extends JFrame implements ActionListener{
 			return false;
 		}
 		if(studentRadioButton.isSelected()) {
-			occupation = new String(Main.type.STUDENT.name());
+			occupation = new String();
 		}
 		else if(instructorRadioButton.isSelected()) {
-			occupation= new String(Main.type.INSTRUCTOR.name());
+			occupation= new String(Occupation.INSTRUCTOR.name());
 		}
 		/* to verify username is in the vector or not there
 		 * if the user is already in there display error message
 		 */
+		Users users = new Users();
+		Vector<Users> temp;
 		temp = new Vector<Users>();
 		temp = users.getUsers();
-		boolean flag = false;
+		boolean idFound = false;
 		int len = temp.size();
 		int i =0;
 		for (i=0;i< len;i++) {
 			//to check if the user exists 
 			if(userid.equals(temp.elementAt(i).getID())) {
-				flag = true;
+				idFound = true;
 			}
 		}
-		if(flag) {
+		if(idFound) {
 			JOptionPane.showMessageDialog(null, "User Exists", "Registration Unsuccessful", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
