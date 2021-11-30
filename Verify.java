@@ -13,7 +13,15 @@ public class Verify {
         	  return false;
 	  }
 	  public static boolean IDVerifier(String id) {
-          Pattern pattern = Pattern.compile( "\\d{5,10}" );//100053896
+          Pattern pattern = Pattern.compile( "\\d{9,9}" );//100053896
+          Matcher matcher = pattern.matcher(id);
+          if(matcher.matches())
+        	  return true;
+          else
+        	  return false;
+	  }
+	  public static boolean crnVerifier(String id) {
+          Pattern pattern = Pattern.compile( "\\d{4,4}" );//100053896
           Matcher matcher = pattern.matcher(id);
           if(matcher.matches())
         	  return true;

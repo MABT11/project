@@ -44,12 +44,13 @@ public class Main {
            @Override
            public void run() {
       	  
-//        	   new LoginPage();
+        	   new LoginPage();
 //        	   new AddDropStudents();
 //        	   new AddDropInstructor();
 //        	   new Register();
 //        	   new AdminPage();
 //        	   new CoursesPage();
+//        	   new AddCourse();
            }
        });
 	}
@@ -60,64 +61,3 @@ public class Main {
 		return bufferedImage.getSubimage(6, 8, 165, 170);
 	}
 }
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//       Runner runner1 = new Runner();
-//       Runner runner2 = new Runner();
-//       runner1.start();
-//       runner2.start();
-//       Thread t1 = new Thread(new runner());
-//       Thread t2 = new Thread(new runner());
-//       
-//       t1.start();
-//       t2.start();
-//	}
-//}
-//class Runner extends Thread{
-//	
-//	@Override
-//	public void run() {
-//		for(int i = 0; i<10;i++) {
-//			System.out.println(i);
-//		}
-//	}
-//}
-//
-//class runner implements Runnable{
-//
-//	@Override
-//	public void run() {
-//		for(int i=0;i<10;i++) {
-//			System.out.println(i);
-//		}
-//	}
-//	
-//}

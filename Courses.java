@@ -76,24 +76,75 @@ public class Courses {
 		return this.enddate;
 	}
 //	public String getStudentCourses() {
-//		Vector<Courses> courses = new Vector<Courses>();
-//		Vector<Users> users =new Vector<Users>();
+//		Courses courses = new Courses();
+//		Vector<Users> student =new Vector<Users>();
 //		Users u=new Users();
-//		courses=getCourses();
-//		
-//		
+////		courses=getCourses();
+//		student=u.getStudentVector();
 //		/*
 //		 * for each student check each course if he is enrolled in it or not
 //		 * then return an array consisting of all the courses he is enrolled in
 //		 */
-//		int students =u.getStudents();
-//		int count = 0;
-//		for(int i = 0; i<students;i++) {
-//			
+//		try{
+//			File file = new File("studentCourses.txt");
+//			Scanner read = new Scanner(file);
+//			while (read.hasNextLine()) {
+//				String currentStudent = read.nextLine();
+//				String splited[] = currentStudent.split(" ");
+//				int len = splited.length;
+//				int j=0;
+//				for(int i = 0; i<len;i++) {
+//					if(student.elementAt(j).getID().equals(splited[0])) {
+//						// you need to check if the course is dublicated or not as well	
+//						if(Integer.parseInt(courses.getNumberOfStudents()) > Integer.parseInt(courses.getMaxstudents())) {
+//							System.out.println("Reacheh max number of students registration failed");
+//							break;
+//						}
+//						else {
+//							courses.setNumberofstudents(courses.getNumberOfStudents()+1);
+//							j++;
+//						}
+//					}
+//				}
+//			}
+//			if(file.length()<100) {
+//				addStudentCoursesFile();
+//			}
+//			read.close();
+//		} catch (FileNotFoundException e) {
+//			addStudentCoursesFile();
+//			return getStudentCourses();	
 //		}
 //		
-//		return "";
+//		return null;
 //	}
+//	public void addStudentCoursesFile() {
+//		//student id, registared courses
+//				String o ="100053896 1234 4567 1346 2486 1793\n"
+//						+ "100001234 8426 4567 1346 1234\n"
+//						+ "100011111 7412 4567 1346 2486\n"
+//						+ "123456789 4567 1346 2486 1793\n"
+//						+ "789456123 7412 4567 1346 2486\n"
+//						+ "123454321 8426 4567 1346 2486\n"
+//						+ "123421231 7412 1346 2486 8426 4567\n"
+//						+ "123432256 1234 1346 2486 8426\n"
+//						+ "100012222 8426 4567 1346 2486\n"
+//						+ "951313333 8426 4567 1346 2486\n"
+//						+ "851666666 8426 4567 1346 2486\n"
+//						+ "777114586 8426 4567 1346 2486\n"
+//						+ "888888895 4567 1346 2486 1793 \n"
+//						+ "999999999 8426 4567 1346 2486\n"
+//						+ "101010101 8426 4567 1346 2486\n"
+//						+ "741965256 8426 4567 1346 2486";
+//				try { 	
+//					PrintWriter S = new PrintWriter(new File("studentCourses.txt"));
+//					S.println(o);
+//					S.close();
+//				}catch(IOException e) {
+//					JOptionPane.showMessageDialog(null, "Error starting the program", "Error", 0, null);
+//					e.printStackTrace();
+//				}
+//			}
 	//setters methods
 	public void setCourse(String course) {
 		this.course = course;

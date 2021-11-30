@@ -117,8 +117,8 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 	public void init() {
 		
 		 backButton = new JButton("Back");
-		 addLabel = new JLabel("Add");
-		 removeLabel = new JLabel("Remove");
+		 addLabel = new JLabel("Add courses");
+		 removeLabel = new JLabel("Remove courses");
 		 modifyLabel = new JLabel("Modify");
 		
 		 gbl_panel = new GridBagLayout();
@@ -166,13 +166,25 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 			new AdminPage();
 			dispose();
 		}
+		
 	}
 	/*
 	 * mouse actions for hyperlink text
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
+		if(e.getSource()==addLabel) {
+			new AddStudent();
+			dispose();
+		}
+		if(e.getSource()==removeLabel) {
+			new AddDropInstructor();
+			dispose();
+		}
+		if(e.getSource()==modifyLabel) {
+			new CoursesPage();
+			dispose();
+		}
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {

@@ -27,7 +27,7 @@ public class AdminPage extends JFrame implements ActionListener, MouseListener {
 	private JPanel panel;
 	private JLabel studentLabel;
 	private JLabel facultyLabel;
-	
+	private JLabel fnamel ;
 	public AdminPage(){
 		
 		setTitle("Banner Self Service");
@@ -59,6 +59,9 @@ public class AdminPage extends JFrame implements ActionListener, MouseListener {
 		courses.setForeground(Color.BLUE.darker());
 		courses.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		courses.addMouseListener(this);
+		fnamel.setForeground(Color.BLUE.darker());
+		fnamel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		fnamel.addMouseListener(this);
 		
 		/*
 		 * configuring the panel and the layout then adding everything to the panel
@@ -100,6 +103,9 @@ public class AdminPage extends JFrame implements ActionListener, MouseListener {
         constraints.gridx=1;
         constraints.gridy = 3;
         panel.add(studentLabel,constraints);
+        constraints.gridx=0;
+        constraints.gridy = 4;
+        panel.add(fnamel,constraints);
         add(panel);
 		pack();
 		setLocationRelativeTo(null);
@@ -120,7 +126,7 @@ public class AdminPage extends JFrame implements ActionListener, MouseListener {
 		Users users = new Users();
 		studentLabel=new JLabel("Number of students " +users.getStudents());
 		facultyLabel=new JLabel("Number of faculty "+users.getFaculty());
-		
+		fnamel= new JLabel();
 		panel = new JPanel(new GridBagLayout());
 	}
 	@Override

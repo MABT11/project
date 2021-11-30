@@ -160,7 +160,18 @@ public class CoursesPage extends JFrame implements ActionListener, MouseListener
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
+		if(e.getSource()==addLabel) {
+			new AddCourse();
+			dispose();
+		}
+		if(e.getSource()==removeLabel) {
+			new AddDropInstructor();
+			dispose();
+		}
+		if(e.getSource()==modifyLabel) {
+			new CoursesPage();
+			dispose();
+		}
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
