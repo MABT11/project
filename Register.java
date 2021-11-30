@@ -210,7 +210,7 @@ public class Register extends JFrame implements ActionListener{
 			return false;
 		}
 		if(studentRadioButton.isSelected()) {
-			occupation = new String();
+			occupation = new String(Occupation.STUDENT.name());
 		}
 		else if(instructorRadioButton.isSelected()) {
 			occupation= new String(Occupation.INSTRUCTOR.name());

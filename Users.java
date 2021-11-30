@@ -54,7 +54,6 @@ public class Users implements Info{
 			File users = new File("users.txt");
 			Scanner read = new Scanner(users);
 			while (read.hasNext()) {
-				
 				load.add(new Users(read.next(), read.next(), read.next(), read.next(), read.next()));
 			}
 			/*

@@ -44,7 +44,7 @@ public class Main {
            @Override
            public void run() {
       	  
-        	   new LoginPage();
+//        	   new LoginPage();
 //        	   new AddDropStudents();
 //        	   new AddDropInstructor();
 //        	   new Register();
