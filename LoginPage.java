@@ -156,12 +156,12 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 						return true;
 					}
 					if(temp.elementAt(i).getOccupation().equals(Occupation.STUDENT.name())) {
-						new StudentPage();
+						new StudentPage(temp.elementAt(i));
 						dispose();
 						return true;
 					}
 					if(temp.elementAt(i).getOccupation().equals(Occupation.INSTRUCTOR.name())) {
-						new InstructorPage();
+						new InstructorPage(temp.elementAt(i));
 						dispose();
 						return true;
 					}

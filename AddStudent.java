@@ -39,7 +39,7 @@ public class AddStudent extends JFrame implements ActionListener{
 	
 	private Courses course = new Courses();
     private String coursename=null,crn=null,hours=null,section=null,time=null,room=null;
-    private String instructor=null,numberofstudents=null,maxstudents=null,startdate=null,enddate=null;
+    private String id=null,numberofstudents=null,maxstudents=null,startdate=null,enddate=null;
     private Vector<Courses> temp;
     private JPanel panel = new JPanel(new GridBagLayout());
 	
@@ -195,7 +195,7 @@ public class AddStudent extends JFrame implements ActionListener{
 			section = sectionField.getText().strip().replace(" ", "");
 			time = timeField.getText().strip().replace(" ", "");
 			room = roomField.getText().strip().replace(" ", "");
-			instructor = instructorField.getText().strip().replace(" ", "");
+			id = instructorField.getText().strip().replace(" ", "");
 			numberofstudents = numberofstudentsField.getText().strip().replace(" ", "");
 			maxstudents = maxstudentsField.getText().strip().replace(" ", "");
 			startdate = startdateField.getText().strip().replace(" ", "");
@@ -226,7 +226,7 @@ public class AddStudent extends JFrame implements ActionListener{
 			}
 			else {
 				//add users to the vector of type user object
-				temp.add(new Courses(coursename, crn, hours, section,time,room,instructor,numberofstudents,maxstudents,startdate,enddate));
+				temp.add(new Courses(coursename, crn, hours, section,time,room,id,numberofstudents,maxstudents,startdate,enddate));
 				JOptionPane.showMessageDialog(null, "Registration Successful", "Registration Completed", JOptionPane.INFORMATION_MESSAGE);
 				course.saveCourses(temp);
 				return true;

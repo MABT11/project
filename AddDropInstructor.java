@@ -64,7 +64,7 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		 * creating a vector of users to use it in the jtable
 		 * count students assign it to object rows
 		 */
-		String[] colName= {"ID", "Name", "Courses"};
+		String[] colName= {"ID", "Name", "Deaprtment","Courses"};
 		Users users = new Users();
 		
 		/*
@@ -151,7 +151,6 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		constraints.gridy = 4;
 		panel.add(modifyLabel,constraints);
 		add(panel);
-	
 	}
 	/*
 	 * button events

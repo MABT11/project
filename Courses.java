@@ -11,16 +11,17 @@ public class Courses {
 	
 	private String course,numberofstudents;
 	private String crn,maxstudents,startdate,enddate;
-	private String hours, instructor, time, section,room;
+	private String hours, id, time, section,room;
+
 	
-	public Courses(String course, String crn, String hours, String section, String time, String room, String instructor, String numberofstudents, String maxstudents, String startdate, String enddate) {
+	public Courses(String course, String crn, String hours, String section, String time, String room, String id,String numberofstudents, String maxstudents, String startdate, String enddate) {
 		this.course = course;
 		this.crn = crn;
 		this.hours = hours;
 		this.section = section;
 		this.time = time;
 		this.room = room;
-		this.instructor = instructor;
+		this.id=id;
 		this.numberofstudents = numberofstudents;
 		this.maxstudents = maxstudents;
 		this.startdate = startdate;
@@ -33,7 +34,7 @@ public class Courses {
 		this.section = null;
 		this.time = null;
 		this.room = null;
-		this.instructor = null;
+		this.id=null;
 		this.numberofstudents = null;
 		this.maxstudents = null;
 		this.startdate = null;
@@ -60,13 +61,13 @@ public class Courses {
 	public String getRoom() {
 		return this.room;
 	}
-	public String getInstructor() {
-		return this.instructor;
+	public String getID() {
+		return this.id;
 	}
 	public String getNumberOfStudents() {
 		return this.numberofstudents;
 	}
-	public String getMaxstudents() {
+	public String getMaxStudents() {
 		return this.maxstudents;
 	}
 	public String getStartdate() {
@@ -75,76 +76,151 @@ public class Courses {
 	public String getEnddate() {
 		return this.enddate;
 	}
-//	public String getStudentCourses() {
-//		Courses courses = new Courses();
-//		Vector<Users> student =new Vector<Users>();
-//		Users u=new Users();
-////		courses=getCourses();
-//		student=u.getStudentVector();
-//		/*
-//		 * for each student check each course if he is enrolled in it or not
-//		 * then return an array consisting of all the courses he is enrolled in
-//		 */
-//		try{
-//			File file = new File("studentCourses.txt");
-//			Scanner read = new Scanner(file);
-//			while (read.hasNextLine()) {
-//				String currentStudent = read.nextLine();
-//				String splited[] = currentStudent.split(" ");
-//				int len = splited.length;
-//				int j=0;
-//				for(int i = 0; i<len;i++) {
-//					if(student.elementAt(j).getID().equals(splited[0])) {
-//						// you need to check if the course is dublicated or not as well	
-//						if(Integer.parseInt(courses.getNumberOfStudents()) > Integer.parseInt(courses.getMaxstudents())) {
-//							System.out.println("Reacheh max number of students registration failed");
-//							break;
+	/*
+	 * it will return a vector with each student with his her regitared courses
+	 */
+	public Vector<RegistaredStudents> getStudentCourses() {
+
+		Vector<Users> student =new Vector<Users>();
+		Vector <RegistaredStudents>r=new Vector<RegistaredStudents>();
+		Users u=new Users();
+		student=u.getStudentVector();
+		/*
+		 * for each student check each course if he is enrolled in it or not
+		 * then return an array consisting of all the courses he is enrolled in
+		 */
+		try{
+			File file = new File("studentCourses.txt");
+			Scanner read = new Scanner(file);
+			//read each line
+			while (read.hasNextLine()) {
+		
+				String splited[] = read.nextLine().split(" ");
+				
+				int len = splited.length;
+				String crn[]=new String[len-1];
+				for(int i = 1; i<len;i++) {
+					crn[i-1]=splited[i];
+				}
+				int slen= student.size();
+				for(int i =0;i <slen;i++) {
+					if(student.elementAt(i).getID().equals(splited[0])) {
+					r.add(new RegistaredStudents(student.elementAt(i).getFirstName(),
+							student.elementAt(i).getLastName(),
+							student.elementAt(i).getID(),
+							student.elementAt(i).getPassword(),
+							student.elementAt(i).getOccupation(),
+							student.elementAt(i).getDepartment(),
+							crn));
+				}
+//					for(int j = 0; j <len;j++) {
+//						if(getCrn().equals(crn[j])) {
+//							setNumberOfStudents(getNumberOfStudents()+1);
 //						}
-//						else {
-//							courses.setNumberofstudents(courses.getNumberOfStudents()+1);
-//							j++;
-//						}
-//					}
-//				}
-//			}
-//			if(file.length()<100) {
-//				addStudentCoursesFile();
-//			}
-//			read.close();
-//		} catch (FileNotFoundException e) {
-//			addStudentCoursesFile();
-//			return getStudentCourses();	
-//		}
-//		
-//		return null;
-//	}
-//	public void addStudentCoursesFile() {
-//		//student id, registared courses
-//				String o ="100053896 1234 4567 1346 2486 1793\n"
-//						+ "100001234 8426 4567 1346 1234\n"
-//						+ "100011111 7412 4567 1346 2486\n"
-//						+ "123456789 4567 1346 2486 1793\n"
-//						+ "789456123 7412 4567 1346 2486\n"
-//						+ "123454321 8426 4567 1346 2486\n"
-//						+ "123421231 7412 1346 2486 8426 4567\n"
-//						+ "123432256 1234 1346 2486 8426\n"
-//						+ "100012222 8426 4567 1346 2486\n"
-//						+ "951313333 8426 4567 1346 2486\n"
-//						+ "851666666 8426 4567 1346 2486\n"
-//						+ "777114586 8426 4567 1346 2486\n"
-//						+ "888888895 4567 1346 2486 1793 \n"
-//						+ "999999999 8426 4567 1346 2486\n"
-//						+ "101010101 8426 4567 1346 2486\n"
-//						+ "741965256 8426 4567 1346 2486";
-//				try { 	
-//					PrintWriter S = new PrintWriter(new File("studentCourses.txt"));
-//					S.println(o);
-//					S.close();
-//				}catch(IOException e) {
-//					JOptionPane.showMessageDialog(null, "Error starting the program", "Error", 0, null);
-//					e.printStackTrace();
-//				}
-//			}
+					}
+			}
+			if(file.length()<100) {
+				addStudentCoursesFile();
+			}
+			read.close();
+		} catch (FileNotFoundException e) {
+			addStudentCoursesFile();
+			return getStudentCourses();	
+		}
+		return r;
+	}
+	public void addStudentCoursesFile() {
+		//student id, registared courses
+			String o ="100053896 1234 4321 1346\n"
+					+ "100001234 4961 8486 8426 8425\n"
+					+ "100011111 1234 4321 1346\n"
+					+ "123456789 1234 4321 1346\n"
+					+ "789456123 4961 8486 8426 8425\n"
+					+ "123454321 2486 7510 2020 2859 4567\n"
+					+ "123421231 1234 4321 1346\n"
+					+ "123432256 2486 7510 2020 2859 4567\n"
+					+ "100012222 1234 4321 1346\n"
+					+ "951313333 2486 7510 2020 2859 4567\n"
+					+ "851666666 1234 4321 1346\n"
+					+ "777114586 1234 4321 1346\n"
+					+ "888888895 4961 8486 8426 8425\n"
+					+ "999999999 4961 8486 8426 8425\n"
+					+ "101010101 1234 4321 1346\n"
+					+ "741965256 2486 7510 2020 2859 4567";
+			try { 	
+				PrintWriter S = new PrintWriter(new File("studentCourses.txt"));
+				S.println(o);
+				S.close();
+			}catch(IOException e) {
+				JOptionPane.showMessageDialog(null, "Error starting the program", "Error", 0, null);
+				e.printStackTrace();
+			}
+	}
+	/*
+	 * it will return a vector that has the instructor information along with his load/courses that he teaches
+	 */
+	public Vector<RegistaredStudents> getSenseiCourses() {
+		
+		Vector<Users> instructor =new Vector<Users>();
+		Vector <RegistaredStudents>r=new Vector<RegistaredStudents>();
+		Users u=new Users();
+		instructor=u.getInstructorVector();
+		/*
+		 * for each instructor check each course if he is enrolled in it or not
+		 * then return an array consisting of all the courses he is enrolled in
+		 */
+		try{
+			File file = new File("InstructorCourses.txt");
+			Scanner read = new Scanner(file);
+			//read each line
+			while (read.hasNextLine()) {
+				
+				String splited[] =  read.nextLine().split(" ");
+				int len = splited.length;
+				
+				String crn[]=new String[len-1];
+				for(int i = 1; i<len;i++) {
+					crn[i-1]=splited[i];
+				}
+				int slen= instructor.size();
+				for(int i =0;i <slen;i++) {
+					if(instructor.elementAt(i).getID().equals(splited[0])) {
+					r.add(new RegistaredStudents(instructor.elementAt(i).getFirstName(),
+							instructor.elementAt(i).getLastName(),
+							instructor.elementAt(i).getID(),
+							instructor.elementAt(i).getPassword(),
+							instructor.elementAt(i).getOccupation(),
+							instructor.elementAt(i).getDepartment(),
+							crn));
+					}
+				}
+			}
+			if(file.length()<100) {
+				addSenseiCoursesFile();
+			}
+			read.close();
+		} catch (FileNotFoundException e) {
+			addSenseiCoursesFile();
+			return getSenseiCourses();	
+		}
+		return r;
+	}
+	public void addSenseiCoursesFile() {
+		//student id, registared courses
+				String o ="400041236 1234 4321 1346\n"
+						+ "589558565 2486 7510 2020\n"
+						+ "100044444 2859 4567\n"
+						+ "951471352 4961 8486\n"
+						+ "456980460 8426 8425";
+				try { 	
+					PrintWriter S = new PrintWriter(new File("InstructorCourses.txt"));
+					S.println(o);
+					S.close();
+				}catch(IOException e) {
+					JOptionPane.showMessageDialog(null, "Error starting the program", "Error", 0, null);
+					e.printStackTrace();
+				}
+			}
 	//setters methods
 	public void setCourse(String course) {
 		this.course = course;
@@ -164,10 +240,10 @@ public class Courses {
 	public void setRoom(String room) {
 		this.room = room;
 	}
-	public void setInstructor(String instructor) {
-		this.instructor = instructor;
+	public void setFirstNameInstructor(String id) {
+		this.id = id;
 	}
-	public void setNumberofstudents(String students) {
+	public void setNumberOfStudents(String students) {
 		this.numberofstudents = students;
 	}
 	public void setMaxstudents(String max) {
@@ -193,9 +269,9 @@ public class Courses {
 						+" "+save.elementAt(i).getSection()
 						+" "+save.elementAt(i).getTime()
 						+" "+save.elementAt(i).getRoom()
-						+" "+save.elementAt(i).getInstructor()
+						+" "+save.elementAt(i).getID()
 						+" "+save.elementAt(i).getNumberOfStudents()
-						+" "+save.elementAt(i).getMaxstudents()
+						+" "+save.elementAt(i).getMaxStudents()
 						+" "+save.elementAt(i).getStartdate()
 						+" "+save.elementAt(i).getEnddate());
 			}
@@ -212,7 +288,7 @@ public class Courses {
 			while (read.hasNext()) {
 				load.add(new Courses(read.next(), read.next(), read.next(),
 									read.next(),read.next(), read.next(),
-									read.next(), read.next(), read.next(),
+									read.next(), read.next(),read.next(),
 									read.next(), read.next()));
 			}
 			if(courses.length()<100) {
@@ -226,28 +302,19 @@ public class Courses {
 		return load;
 	}
 	public void addCoursesFile() {
-//name, crn, credit hours, section, time, building, instructor name, registered student, capacity, start, end
-		String o ="Object-Orientied-Programming 1234 4 B1 12:50 G10001 Majid "+this.getNumberOfStudents()+" 30 25/8 12/12\n"
-				+ "Object-Orientied-Programming 4567 4 B2 12:50 G10002 Ahmed 20 30 25/8 12/12\n"
-				+ "Object-Orientied-Programming 1346 4 B3 12:50 G10001 Omar 29 30 25/8 12/12\n"
-				+ "Object-Orientied-Programming 2486 4 B4 12:50 G10001 Ali 30 30 25/8 12/12\n"
-				+ "English-I 1793 4 3 12:50 G10001 Salem 19 30 25/8 12/12\n"
-				+ "Nanochemistry 8426 4 4 12:50 G10001 Khaled 15 30 25/8 12/12\n"
-				+ "Chemistry-II 4637 4 5 12:50 G10002 Ahmed 20 30 25/8 12/12\n"
-				+ "Chemistry-I 1346 4 6 12:50 G10001 Omar 29 30 25/8 12/12\n"
-				+ "Physics-I 2486 4 7 12:50 G10001 Ali 30 30 25/8 12/12\n"
-				+ "Physics-II 7510 4 8 12:50 G10001 Salem 19 30 25/8 12/12\n"
-				+ "Calculus-I 8426 4 9 12:50 G10001 Khaled 15 30 25/8 12/12\n"
-				+ "Calculus-II 4567 4 10 12:50 G10002 Ahmed 20 30 25/8 12/12\n"
-				+ "Calculus-III 1346 4 11 12:50 G10001 Omar 29 30 25/8 12/12\n"
-				+ "Digital-Logic-Design 2486 4 12 12:50 G10001 Ali 30 30 25/8 12/12\n"
-				+ "Statics 2020 4 2 12:50 G10001 Salem 19 30 25/8 12/12\n"
-				+ "Thermodynamics 8426 4 3 12:50 G10001 Khaled 15 30 25/8 12/12\n"
-				+ "Economics 4961 4 1 12:50 G10002 Ahmed 20 30 25/8 12/12\n"
-				+ "Accounting 9376 4 2 12:50 G10001 Omar 29 30 25/8 12/12\n"
-				+ "Biochemistry 2486 4 6 12:50 G10001 Ali 30 30 25/8 12/12\n"
-				+ "Geomatics 1793 4 9 12:50 G10001 Salem 19 30 25/8 12/12\n"
-				+ "Thermodynamics 8426 4 8 12:50 G10001 Khaled 15 30 25/8 12/12\n";
+//name, crn, credit hours, section, time, building, instructor id, registered student, capacity, start, end
+		String o ="Object-Orientied-Programming 1234 4 B1 12:50 G10001 400041236 8 30 25/8 12/12\n"
+				+ "Nanochemistry 8426 4 4 12:50 G10001 456980460 11 30 25/8 12/12\n"
+				+ "Chemistry-I 8425 4 4 12:50 G10001 456980460 11 30 25/8 12/12\n"
+				+ "Electric-Circuit-I 1346 4 6 12:50 G10001 400041236 8 30 25/8 12/12\n"
+				+ "Physics-I 2486 4 7 12:50 G10001 589558565 30 30 25/8 12/12\n"
+				+ "Physics-II 7510 4 8 12:50 G10001 589558565 19 30 25/8 12/12\n"
+				+ "Electromagnetic 2859 4 9 12:50 G10001 100044444 15 30 25/8 12/12\n"
+				+ "Qauntum-Physics 4567 4 10 12:50 G10002 100044444 20 30 25/8 12/12\n"
+				+ "Digital-Logic-Design 4321 4 12 12:50 G10001 400041236 8 30 25/8 12/12\n"
+				+ "Statics 2020 4 2 12:50 G10001 589558565 19 30 25/8 12/12\n"
+				+ "Thermodynamics 4961 4 1 12:50 G10002 951471352 20 30 25/8 12/12\n"
+				+"Biochemistry 8486 4 6 12:50 G10001 456980460 30 30 25/8 12/12\n";
 		try { 	
 			PrintWriter S = new PrintWriter(new File("courses.txt"));
 			S.println(o);
@@ -263,8 +330,9 @@ public class Courses {
 		String o="Course: "+this.getCourse()+" Crn: "+this.getCrn();
 		o += " Hours: "+this.getHours()+" Section: "+this.getSection();
 		o += " Time: "+this.getTime()+" Room: "+this.getRoom();
-		o += " Instructor: "+this.getInstructor()+" NumberofStudents: "+this.getNumberOfStudents();
-		o += " MaxStudents: "+this.getMaxstudents()+" Start Date: "+this.getStartdate();
+		o += " ID: "+this.getID();
+		o += " NumberofStudents: "+this.getNumberOfStudents();
+		o += " MaxStudents: "+this.getMaxStudents()+" Start Date: "+this.getStartdate();
 		o += " End Date: "+this.getEnddate();
 		return o;
 	}
@@ -283,12 +351,58 @@ public class Courses {
 			classes[i][3]=s.elementAt(i).getSection();
 			classes[i][4]=s.elementAt(i).getTime();
 			classes[i][5]=s.elementAt(i).getRoom();
-			classes[i][6]=s.elementAt(i).getInstructor();
+			classes[i][6]=s.elementAt(i).getID();
 			classes[i][7]=s.elementAt(i).getNumberOfStudents();
-			classes[i][8]=s.elementAt(i).getMaxstudents();
+			classes[i][8]=s.elementAt(i).getMaxStudents();
 			classes[i][9]=s.elementAt(i).getStartdate();
 			classes[i][10]=s.elementAt(i).getEnddate();
 		}
 		return classes;
+	}
+}
+class RegistaredStudents extends Users{
+	
+	private String[] courses;
+	public RegistaredStudents(String firstName, String lastName, String id, String password, String occupation, String department,String[] courses) {
+		super(firstName,lastName,id,password,occupation,department);
+		this.courses=courses;
+	}
+	public RegistaredStudents() {
+		courses=null;
+	}
+	public String getCourses() {
+		String o = "";
+		int len = this.courses.length;
+		for(int i = 0; i<len;i++) {
+			o+=this.courses[i]+(i<len-1?", ":"");
+		}
+		return o;
+	}
+	public String gc() {
+		String o = "";
+		int len = this.courses.length;
+		for(int i = 0; i<len;i++) {
+			o+=this.courses[i]+" ";
+		}
+		return o;
+	}
+	/*
+	 * to find the number of the students enrolled in the passed crn
+	 */
+	public int getNumberOfStudentEnrolled(String crn) {
+		
+		Vector<RegistaredStudents>c=new Vector<RegistaredStudents>();
+		Courses course = new Courses();
+		c=course.getStudentCourses();
+		int count = c.size();
+		int enrolled=0;
+		for(int i = 0; i <count;i++) {
+			String s[]=c.elementAt(i).gc().split(" ");
+			for(int j=0;j<s.length;j++) {
+				if(s[j].equals(crn))
+					enrolled++;
+			}
+		}
+		return enrolled;
 	}
 }

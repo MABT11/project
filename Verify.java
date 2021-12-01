@@ -21,7 +21,7 @@ public class Verify {
         	  return false;
 	  }
 	  public static boolean crnVerifier(String id) {
-          Pattern pattern = Pattern.compile( "\\d{4,4}" );//100053896
+          Pattern pattern = Pattern.compile( "\\d{4,4}" );//1234
           Matcher matcher = pattern.matcher(id);
           if(matcher.matches())
         	  return true;

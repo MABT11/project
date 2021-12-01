@@ -68,7 +68,7 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 		 * creating a vector of users to use it in the jtable
 		 * count students assign it to object rows
 		 */
-		String[] colName= {"ID", "Name", "Courses"};
+		String[] colName= {"ID", "Name","Department", "Courses"};
 		Users users = new Users();
 		/*
 		 * creating the table and configuring its dimensions
@@ -107,7 +107,7 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 		pack();
 		setLocationRelativeTo(null);
 		//#cols,#rows
-		setMinimumSize(new Dimension(420, 420));
+		setMinimumSize(new Dimension(800, 450));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}

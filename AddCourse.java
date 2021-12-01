@@ -38,8 +38,8 @@ public class AddCourse extends JFrame implements ActionListener{
 	private JLabel enddatelabel = new JLabel("End Date:");
 	
 	private Courses course = new Courses();
-    private String coursename=null,crn=null,hours=null,section=null,time=null,room=null;
-    private String instructor=null,numberofstudents=null,maxstudents=null,startdate=null,enddate=null;
+    private String coursename=null,crn=null,hours=null,section=null,time=null,room=null,id=null;
+    private String numberofstudents=null,maxstudents=null,startdate=null,enddate=null;
     private Vector<Courses> temp;
     private JPanel panel = new JPanel(new GridBagLayout());
 	
@@ -54,6 +54,8 @@ public class AddCourse extends JFrame implements ActionListener{
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.insets = new Insets(10, 10, 10, 10);
+		
+		
 		panel.setBackground(Color.white);
 		panel.setOpaque(true);
 		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
@@ -61,28 +63,20 @@ public class AddCourse extends JFrame implements ActionListener{
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
 		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Register Panel"));
 	
-		//square box around the word
 		addcourseButton.setFocusable(false);
-		//to add functionality to the box
 		addcourseButton.addActionListener(this);
 				
-		//square box around the word
 		resetButton.setFocusable(false);
-		//to add functionality to the box
 		resetButton.addActionListener(this);
 				
-		//square box around the word
 		backButton.setFocusable(false);
-		//to add functionality to the box
 		backButton.addActionListener(this);
 
 		constraints.gridx = 0;
         constraints.gridy = 0;
 		panel.add(backButton, constraints);
 		constraints.gridx = 1;
-		//panel.add(studentRadioButton, constraints);
 		constraints.gridx = 2;
-		//panel.add(instructorRadioButton);
 		constraints.gridx = 0;
 		constraints.gridy = 1;
 		panel.add(courselabel,constraints);
@@ -187,7 +181,6 @@ public class AddCourse extends JFrame implements ActionListener{
 			}
 			
 		}
-		
 		public boolean addcourse() {
 			coursename = courseField.getText().strip().replace(" ", "");
 			crn = crnField.getText().strip().replace(" ", "");
@@ -195,7 +188,7 @@ public class AddCourse extends JFrame implements ActionListener{
 			section = sectionField.getText().strip().replace(" ", "");
 			time = timeField.getText().strip().replace(" ", "");
 			room = roomField.getText().strip().replace(" ", "");
-			instructor = instructorField.getText().strip().replace(" ", "");
+			id = instructorField.getText().strip().replace(" ", "");
 			numberofstudents = numberofstudentsField.getText().strip().replace(" ", "");
 			maxstudents = maxstudentsField.getText().strip().replace(" ", "");
 			startdate = startdateField.getText().strip().replace(" ", "");
@@ -229,7 +222,7 @@ public class AddCourse extends JFrame implements ActionListener{
 			}
 			else {
 				//add users to the vector of type user object
-				temp.add(new Courses(coursename, crn, hours, section,time,room,instructor,numberofstudents,maxstudents,startdate,enddate));
+				temp.add(new Courses(coursename, crn, hours, section,time,room,id,numberofstudents,maxstudents,startdate,enddate));
 				JOptionPane.showMessageDialog(null, "Registration Successful", "Registration Completed", JOptionPane.INFORMATION_MESSAGE);
 				course.saveCourses(temp);
 				return true;

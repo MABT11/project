@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Vector;
 import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -31,7 +32,24 @@ public class Main {
 			}
 		}
 		
+//		Courses course = new Courses();
+//		course.getStudentCourses();		
 		
+		
+//		Users u = new Users();
+//		Vector<Users>v=new Vector<>();
+//		v=u.getStudentVector();
+//		for(int i = 0; i<16;i++)
+//			System.out.println(v.elementAt(i).getID());
+//		RegistaredStudents r = new RegistaredStudents();
+//		System.out.println(r.getNumberOfStudentEnrolled("1346"));
+//		System.out.println(r.getNumberOfStudentEnrolled("8426"));
+//		System.out.println(r.getNumberOfStudentEnrolled("8425"));
+//		System.out.println(r.getNumberOfStudentEnrolled("4321"));
+//		System.out.println(r.getNumberOfStudentEnrolled("4961"));
+//		System.out.println(r.getNumberOfStudentEnrolled("2486"));
+//		System.out.println(r.getNumberOfStudentEnrolled("4567"));
+//		System.out.println(r.getNumberOfStudentEnrolled("2859"));
 		try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
