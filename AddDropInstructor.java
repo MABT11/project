@@ -101,7 +101,7 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 		pack();
 		setLocationRelativeTo(null);
 		//#cols,#rows
-		setMinimumSize(new Dimension(300, 250));
+		setMinimumSize(new Dimension(600, 300));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
@@ -176,28 +176,24 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 			dispose();
 		}
 		if(e.getSource()==modifyLabel) {
-//			new CoursesPage();
-//			dispose();
+			new ModifyInstructorDetails();
+			dispose();
 		}
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 	/* 

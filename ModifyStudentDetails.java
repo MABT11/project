@@ -3,24 +3,24 @@
  */
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
+import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
-public class AddDropStudents extends JFrame implements TableModelListener, ActionListener, MouseListener, DocumentListener{
+public class ModifyStudentDetails extends JFrame implements  ActionListener, MouseListener, DocumentListener, TableModelListener{
 
 	private JButton backButton;
 	
-	private JLabel addLabel;
-	private JLabel removeLabel;
+	
 	private JLabel modifyLabel;
 
 	private GridBagLayout gbl_panel;
@@ -32,8 +32,9 @@ public class AddDropStudents extends JFrame implements TableModelListener, Actio
 	private TableRowSorter<TableModel> rowSorter;
 	private DefaultTableModel model;
 	private JScrollPane scroll;
+	private String[] colName= {"ID", "Name","Department", "Courses"};
 	
-	public AddDropStudents(){
+	public ModifyStudentDetails(){
 		/*
 		 * for making the jtable exapd to the left and write and shrink but it still disappers
 		 */
@@ -48,14 +49,6 @@ public class AddDropStudents extends JFrame implements TableModelListener, Actio
 		//to add the dynamic search update while typing
 		filter.getDocument().addDocumentListener(this);
 		filter.setToolTipText("Search for students by name, id, courses");
-
-		addLabel.setForeground(Color.BLUE.darker());
-		addLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		addLabel.addMouseListener(this);
-		
-		removeLabel.setForeground(Color.BLUE.darker());
-		removeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		removeLabel.addMouseListener(this);
 		
 		modifyLabel.setForeground(Color.BLUE.darker());
 		modifyLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -65,17 +58,30 @@ public class AddDropStudents extends JFrame implements TableModelListener, Actio
 		 * creating a vector of users to use it in the jtable
 		 * count students assign it to object rows
 		 */
-		String[] colName= {"ID", "Name","Department", "Courses"};
+		
 		Users users = new Users();
 		/*
 		 * creating the table and configuring its dimensions
 		 */
 		model = new DefaultTableModel(users.getStudentInfo(), colName);
+
 		table = new JTable(model){
-		    @Override					// set all cells to uneditable
+			@Override					// set all cells to uneditable
 		    public boolean isCellEditable(int row, int column) {
-		    	return false;
-		    }};
+		    	return column==0||column==1||column==2;
+		    	}
+            //  Determine editor to be used by row
+            public TableCellEditor getCellEditor(int row, int column){
+                int modelColumn = convertColumnIndexToModel( column );
+                String []s={"ECCE","PHYSICS","CHEMISTRY"};
+                if (modelColumn == 2){
+                    JComboBox<String> comboBox1 = new JComboBox<String>(s);
+                    return new DefaultCellEditor(comboBox1);
+                }
+                else
+                    return super.getCellEditor(row, column);
+            }
+        };
 		table.setPreferredScrollableViewportSize(new Dimension(200, 250));
 		/*
 		 * adding it to jscroll and adding the sorting functionality
@@ -100,7 +106,7 @@ public class AddDropStudents extends JFrame implements TableModelListener, Actio
 		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		panel.setBorder(BorderFactory.createEtchedBorder());
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
-		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Add drop students"));
+		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Students details"));
 		
 		addComponents();
 		pack();
@@ -116,9 +122,8 @@ public class AddDropStudents extends JFrame implements TableModelListener, Actio
 	public void init() {
 		
 		 backButton = new JButton("Back");
-		 addLabel = new JLabel("Add courses");
-		 removeLabel = new JLabel("Remove courses");
-		 modifyLabel = new JLabel("Modify student details");
+		 
+		 modifyLabel = new JLabel("Modify");
 		
 		 gbl_panel = new GridBagLayout();
 		 
@@ -140,18 +145,12 @@ public class AddDropStudents extends JFrame implements TableModelListener, Actio
 		panel.add(backButton,constraints);
 		constraints.gridx = 1;
 		panel.add(filter, constraints);
-		constraints.gridx = 0;
 		constraints.gridy = 2;
-		panel.add(addLabel,constraints);
-		constraints.gridx = 1;
 		constraints.gridheight = 100;
 		panel.add(scroll,constraints);
 		constraints.gridx = 0;
 		constraints.gridy = 3;
 		constraints.gridheight = 1;
-		panel.add(removeLabel,constraints);
-		constraints.gridx = 0;
-		constraints.gridy = 4;
 		panel.add(modifyLabel,constraints);
 		getContentPane().add(panel);
 	}
@@ -162,7 +161,7 @@ public class AddDropStudents extends JFrame implements TableModelListener, Actio
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource()==backButton) {
-			new AdminPage();
+			new AddDropStudents();
 			dispose();
 		}
 		
@@ -172,17 +171,9 @@ public class AddDropStudents extends JFrame implements TableModelListener, Actio
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(e.getSource()==addLabel) {
-			new AddStudentCourses();
-			dispose();
-		}
-		if(e.getSource()==removeLabel) {
-			new RemoveStudentCourses();
-			dispose();
-		}
+		
 		if(e.getSource()==modifyLabel) {
-			new ModifyStudentDetails();
-			dispose();
+			mod();
 		}
 	}
 	@Override
@@ -208,30 +199,65 @@ public class AddDropStudents extends JFrame implements TableModelListener, Actio
 	/*
 	 * When the admin updates the user information from the table it also gets updated in the file
 	 */
-	@Override
-	public void tableChanged(TableModelEvent e){
-//		if(e.getColumn()>=0){
-//			//				PrintWriter w = new PrintWriter(new FileOutputStream(new File("Test.txt"),true));
-//							Object[][]data=new Object[15][4];
-//							String[]crn=new String[5];
-//							for(int i =0;i<15;i++){
-//								for(int j =0;j<4;j++){
-//									data[i][j]=table.getModel().getValueAt(i,j);
-//									if(Verify.IDVerifier(""+data[i][j])){
-//										System.out.print(data[i][j]+" ");
-//									}
-//									else if(Verify.NameVerifier((""+data[i][j]).replaceAll("\\s", ""))){
-//										System.out.print(data[i][j]+" ");
-//									}
-//									else{
-//										System.out.println("Error in ID field input");
-//										table=new JTable(model);
-//										return ;
-//									}
-//								}	
-//								System.out.println();
-//							}	
-//		}
+	public void mod(){
+		Vector<RegistaredStudents>c=new Vector<RegistaredStudents>();
+		Courses course = new Courses();
+		c=course.getStudentCourses();
+		Vector<Users> load = new Vector<Users>();
+		Users user = new Users();
+		load = user.getStudentVector();
+		int length =user.getStudents();
+		int colnum=4;
+		Object[][]data2=new Object[length][colnum];
+		Object[][]data=new Object[length][colnum];
+		String[]crn=new String[5];
+		for(int i =0;i<length;i++){
+			for(int j =0;j<colnum;j++){
+				data[i][j]=table.getModel().getValueAt(i,j);
+				if(Verify.IDVerifier(""+data[i][j])){
+					System.out.print(data[i][j]+" ");
+					data2[i][j]=data[i][j];
+					c.elementAt(i).setID(""+data[i][j]);
+					load.elementAt(i).setID(""+data[i][j]);
+				}
+				else if(Verify.NameVerifier((""+data[i][j]).replaceAll("\\s", ""))){
+					System.out.print(data[i][j]+" ");
+					data2[i][j]=data[i][j];
+					if(data[i][j].equals("ECCE")) {
+						c.elementAt(i).setDepartment("ECCE");
+						load.elementAt(i).setDepartment("ECCE");
+					}
+					else if(data[i][j].equals("PHYSICS")) {
+						c.elementAt(i).setDepartment("PHYSICS");
+						load.elementAt(i).setDepartment("PHYSICS");
+					}
+					else if(data[i][j].equals("CHEMISTRY")) {
+						c.elementAt(i).setDepartment("CHEMISTRY");
+						load.elementAt(i).setDepartment("CHEMISTRY");
+					}
+					else {
+						String []name=(""+data[i][j]).split(" ");
+						c.elementAt(i).setFirstName(name[0]);
+						c.elementAt(i).setLastName(name[1]);
+						load.elementAt(i).setFirstName(name[0]);
+						load.elementAt(i).setLastName(name[1]);
+					}
+				}
+				else{
+					crn = (""+data[i][j]).replaceAll("\\s", "").split(",");
+					for(int k=0;k<crn.length;k++) {
+						if(Verify.crnVerifier(crn[k])) {
+							System.out.print(crn[k]+" ");
+							data2[i][j]=data[i][j];
+							c.elementAt(i).setCourse2(k,crn[k]);
+						}
+					}
+				}
+			}	
+			System.out.println();
+		}
+		course.saveStudentCoursesAdd(c);
+		user.saveModifiedStudents(load);
 	}
 	/* 
 	 * document event handler
@@ -262,5 +288,14 @@ public class AddDropStudents extends JFrame implements TableModelListener, Actio
 	@Override
 	public void changedUpdate(DocumentEvent e) {
        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+	@Override
+	public void tableChanged(TableModelEvent e) {
+		if(e.getColumn()==2) {
+			JOptionPane.showMessageDialog(null, "To avoid problems with the system please go change the student courses\n"
+					+ "1) Remove all the courses that the student is enrolled in\n"
+					+ "2) Add applicable courses considering his new department", "Registration Error", JOptionPane.ERROR_MESSAGE);
+		}
+		
 	}
 }

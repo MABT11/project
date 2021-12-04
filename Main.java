@@ -74,6 +74,8 @@ public class Main {
 //        	    new CoursesPage();
 //        	    new AddCourse();
 //        	   new RemoveStudentCourses();
+//        	   new ModifyStudentDetails();
+//        	   new ModifyInstructorDetails();
            }
        });
 	}

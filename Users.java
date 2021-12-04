@@ -33,8 +33,75 @@ public class Users implements Info{
 		this.occupation = null;
 		this.department=null;
 	}
-	
 	//save users to file 
+	public void saveModifiedStudents(Vector<Users> sv) {
+		try {
+			PrintWriter S = new PrintWriter(new FileWriter("users.txt"));
+			
+			Vector<Users> instructor =new Vector<Users>();
+			Users u=new Users();
+			instructor=u.getInstructorVector();
+			Vector<Users> iv=getInstructorVector();
+			Vector<Users> av=getAdminVector();
+			Vector<Users> users=getUsers();
+			int numberofstudent=sv.size();
+			int numberofinstructor=iv.size();
+			int numberofadmin=av.size();
+			int sum =numberofstudent+numberofinstructor+numberofadmin;
+			int a=0,b=0,c=0;
+			for(int i =0;i<sum;i++) {
+				if(users.elementAt(i).occupation.equals("STUDENT")) {
+					S.println(sv.elementAt(a).getFirstName()+" "+sv.elementAt(a).getLastName()+" "+sv.elementAt(a).getID()+" "+sv.elementAt(a).getPassword()+" "+sv.elementAt(a).getOccupation()+" "+sv.elementAt(a).getDepartment());
+					a++;
+				}
+				else if(users.elementAt(i).occupation.equals("INSTRUCTOR")) {
+					S.println(iv.elementAt(b).getFirstName()+" "+iv.elementAt(b).getLastName()+" "+iv.elementAt(b).getID()+" "+iv.elementAt(b).getPassword()+" "+iv.elementAt(b).getOccupation()+" "+iv.elementAt(b).getDepartment());
+					b++;
+				}
+				else if(users.elementAt(i).occupation.equals("ADMIN")) {
+					S.println(av.elementAt(c).getFirstName()+" "+av.elementAt(c).getLastName()+" "+av.elementAt(c).getID()+" "+av.elementAt(c).getPassword()+" "+av.elementAt(c).getOccupation()+" "+av.elementAt(c).getDepartment());
+					c++;
+				}
+			}
+			S.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public void saveModifiedInstructors(Vector<Users> iv) {
+		try {
+			PrintWriter S = new PrintWriter(new FileWriter("users.txt"));
+			
+			Vector<Users> instructor =new Vector<Users>();
+			Users u=new Users();
+			instructor=u.getInstructorVector();
+			Vector<Users> sv=getStudentVector();
+			Vector<Users> av=getAdminVector();
+			Vector<Users> users=getUsers();
+			int numberofstudent=sv.size();
+			int numberofinstructor=iv.size();
+			int numberofadmin=av.size();
+			int sum =numberofstudent+numberofinstructor+numberofadmin;
+			int a=0,b=0,c=0;
+			for(int i =0;i<sum;i++) {
+				if(users.elementAt(i).occupation.equals("STUDENT")) {
+					S.println(sv.elementAt(a).getFirstName()+" "+sv.elementAt(a).getLastName()+" "+sv.elementAt(a).getID()+" "+sv.elementAt(a).getPassword()+" "+sv.elementAt(a).getOccupation()+" "+sv.elementAt(a).getDepartment());
+					a++;
+				}
+				else if(users.elementAt(i).occupation.equals("INSTRUCTOR")) {
+					S.println(iv.elementAt(b).getFirstName()+" "+iv.elementAt(b).getLastName()+" "+iv.elementAt(b).getID()+" "+iv.elementAt(b).getPassword()+" "+iv.elementAt(b).getOccupation()+" "+iv.elementAt(b).getDepartment());
+					b++;
+				}
+				else if(users.elementAt(i).occupation.equals("ADMIN")) {
+					S.println(av.elementAt(c).getFirstName()+" "+av.elementAt(c).getLastName()+" "+av.elementAt(c).getID()+" "+av.elementAt(c).getPassword()+" "+av.elementAt(c).getOccupation()+" "+av.elementAt(c).getDepartment());
+					c++;
+				}
+			}
+			S.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	public void saveUsers(Vector<Users> save) {
 		try {
 			PrintWriter S = new PrintWriter(new FileWriter("users.txt"));
@@ -101,7 +168,7 @@ public class Users implements Info{
 				+ "jamal tariq 888888895 asdfgh0$ STUDENT "+Departments.CHEMISTRY.name()+"\n"
 				+ "elyas zikkos 456980460 password_1 INSTRUCTOR "+Departments.CHEMISTRY.name()+"\n"
 				+ "abdulrhman abbas 999999999 Lo0ol_99 STUDENT "+Departments.CHEMISTRY.name()+"\n"
-				+ "dfghj cvbnm 101010101 ppAA_88 STUDENT "+Departments.ECCE.name();
+				+ "samer amer 101010101 ppAA_88 STUDENT "+Departments.ECCE.name();
 		try {
 			PrintWriter S = new PrintWriter(new File("users.txt"));
 			S.println(o);
@@ -167,13 +234,27 @@ public class Users implements Info{
 	 */
 	public Vector<Users> getInstructorVector() {
 		
+		Vector<Users> students = new Vector<Users>();
+		Vector<Users> s=new Vector<Users>();
+		students= getUsers();
+		int len = students.size();
+		
+		for(int j = 0; j < len; j++) {
+				if(students.elementAt(j).getOccupation().trim().equals(Occupation.INSTRUCTOR.name())) {
+					s.add(students.elementAt(j));
+				}
+		}
+		return s;
+	}
+	public Vector<Users> getAdminVector() {
+		
 		Vector<Users> sensei = new Vector<Users>();
 		Vector<Users> s=new Vector<Users>();
 		sensei= getUsers();
 		int len = sensei.size();
 		
 		for(int j = 0; j < len; j++) {
-				if(sensei.elementAt(j).getOccupation().trim().equals(Occupation.INSTRUCTOR.name())) {
+				if(sensei.elementAt(j).getOccupation().trim().equals(Occupation.ADMIN.name())) {
 					s.add(sensei.elementAt(j));
 				}
 		}
@@ -220,12 +301,13 @@ public class Users implements Info{
 		int count = getStudents();
 		
 		Object[][] students =new Object[count][4];
-
+		System.out.println("Count: "+count);
 		for(int i = 0; i < count;i++) {
-				students[i][0]=c.elementAt(i).getID();
-				students[i][1]=c.elementAt(i).getFirstName()+" "+c.elementAt(i).getLastName();
-				students[i][2]=c.elementAt(i).getDepartment();
-				students[i][3]=c.elementAt(i).getCourses();
+			System.out.println(i+" "+c.elementAt(i).getID());
+			students[i][0]=c.elementAt(i).getID();
+			students[i][1]=c.elementAt(i).getFirstName()+" "+c.elementAt(i).getLastName();
+			students[i][2]=c.elementAt(i).getDepartment();
+			students[i][3]=c.elementAt(i).getCourses();
 		}
 		return students;
 	}

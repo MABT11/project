@@ -35,7 +35,7 @@ public class AddStudentCourses extends JFrame implements ActionListener{
 		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		panel.setBorder(BorderFactory.createEtchedBorder());
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
-		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Register Panel"));
+		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Add Student Courses"));
 	
 
 		addcourseButton.setFocusable(false);
@@ -88,6 +88,10 @@ public class AddStudentCourses extends JFrame implements ActionListener{
 			crn = crnField.getText().strip();
 			if(!Verify.crnVerifier(crn)) {
 				JOptionPane.showMessageDialog(null, "Please enter one CRN at a time", "Registration Failed", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			if(!Verify.IDVerifier(studentid)) {
+				JOptionPane.showMessageDialog(null, "Please enter a vaild student ID", "Registration Failed", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
 			c=course.getStudentCourses();

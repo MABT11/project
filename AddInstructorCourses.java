@@ -33,8 +33,7 @@ public class AddInstructorCourses extends JFrame implements ActionListener{
 		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		panel.setBorder(BorderFactory.createEtchedBorder());
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
-		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Course Load"));
-	
+		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Add Course Load"));
 
 		addcourseButton.setFocusable(false);
 		addcourseButton.addActionListener(this);
@@ -101,4 +100,3 @@ public class AddInstructorCourses extends JFrame implements ActionListener{
 			return false;
 		}
 }
-

@@ -227,9 +227,16 @@ public class Register extends JFrame implements ActionListener{
 		/*
 		 * First check if the user filled the boxes with his credentials
 		 */
-		if(!Verify.NameVerifier(fname)&&!Verify.NameVerifier(lname)) {
+		if(!Verify.NameVerifier(fname)||!Verify.NameVerifier(lname)) {
 			JOptionPane.showMessageDialog(null, "Please Enter a vaild name", "Registration Unuccessful", JOptionPane.ERROR_MESSAGE);	
 			return false;
+		}
+		int l = crn.length;
+		for(int i = 0; i<l;i++) {
+			if(!Verify.crnVerifier(crn[i])) {
+				JOptionPane.showMessageDialog(null, "Please Enter a vaild CRN", "Registration Unuccessful", JOptionPane.ERROR_MESSAGE);	
+				return false;
+			}
 		}
 		if(!Verify.IDVerifier(userid)) {
 			JOptionPane.showMessageDialog(null, "Please Enter a vaild ID", "Registration Unuccessful", JOptionPane.ERROR_MESSAGE);	
@@ -241,13 +248,27 @@ public class Register extends JFrame implements ActionListener{
 			return false;
 		}
 		if(department.getSelectedItem().equals(Departments.CHEMISTRY.name())) {
-			dep=Departments.CHEMISTRY.name();
+			dep=new String(Departments.CHEMISTRY.name());
 		}
 		if(department.getSelectedItem().equals(Departments.ECCE.name())) {
-			dep=Departments.ECCE.name();
+			dep=new String(Departments.ECCE.name());
 		}
 		if(department.getSelectedItem().equals(Departments.PHYSICS.name())) {
-			dep=Departments.PHYSICS.name();
+			dep=new String(Departments.PHYSICS.name());
+		}
+		for(int i =0;i<l;i++) {
+			if(dep.equals("PHYSICS")&&!isEligiable(crn[i], "PHYSICS")&&isDublicate(crn)) {
+				JOptionPane.showMessageDialog(null, "Please enter a CRN that matches student department", "Registration Unsuccesful", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			if(dep.equals("ECCE")&&!isEligiable(crn[i], "ECCE")) {
+				JOptionPane.showMessageDialog(null, "Please enter a CRN that matches student department", "Registration Unsuccesful", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			if(dep.equals("CHEMISTRY")&&!isEligiable(crn[i], "CHEMISTRY")) {
+				JOptionPane.showMessageDialog(null, "Please enter a CRN that matches student department", "Registration Unsuccesful", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
 		}
 		if(!studentRadioButton.isSelected()&&!instructorRadioButton.isSelected()) {
 			JOptionPane.showMessageDialog(null, "You need to select user type STUDENT or INSTRUCTOR", "Registration Unsuccesful", JOptionPane.ERROR_MESSAGE);
@@ -299,5 +320,24 @@ public class Register extends JFrame implements ActionListener{
 			}
 			return true;
 		}
+	}
+	private boolean isDublicate(String[] crn2) {
+		for(int i =0;i<crn2.length;i++) {
+			for(int j=i+1;j<crn.length;j++) {
+				if(crn2[i].equals(crn2[j])) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	public boolean isEligiable(String course,String dep) {
+		
+		Vector <Courses>l=new Courses().getCourses();
+		for(int i = 0; i<l.size();i++) 
+			if(l.elementAt(i).getCrn().equals(course)) 
+				if(l.elementAt(i).getDept().equals(dep)) 
+					return true;
+		return false;	
 	}
 }

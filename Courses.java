@@ -140,6 +140,7 @@ public class Courses {
 		Vector <RegistaredStudents>r=new Vector<RegistaredStudents>();
 		Users u=new Users();
 		student=u.getStudentVector();
+		int slen= student.size();
 		/*
 		 * for each student check each course if he is enrolled in it or not
 		 * then return an array consisting of all the courses he is enrolled in
@@ -157,16 +158,18 @@ public class Courses {
 				for(int i = 1; i<len;i++) {
 					crn[i-1]=splited[i];
 				}
-				int slen= student.size();
+				
 				for(int i =0;i <slen;i++) {
 					if(student.elementAt(i).getID().equals(splited[0])) {
-					r.add(new RegistaredStudents(student.elementAt(i).getFirstName(),
-							student.elementAt(i).getLastName(),
-							student.elementAt(i).getID(),
-							student.elementAt(i).getPassword(),
-							student.elementAt(i).getOccupation(),
-							student.elementAt(i).getDepartment(),
-							crn));
+						r.add(new RegistaredStudents(student.elementAt(i).getFirstName(),
+													student.elementAt(i).getLastName(),
+													student.elementAt(i).getID(),
+													student.elementAt(i).getPassword(),
+													student.elementAt(i).getOccupation(),
+													student.elementAt(i).getDepartment(),
+													crn));
+						System.out.println(i+" "+student.elementAt(i).getID());
+						break;
 					}
 				}
 			}
@@ -178,6 +181,7 @@ public class Courses {
 			addStudentCoursesFile();
 			return getStudentCourses();	
 		}
+		System.out.println("done no errors in getStudentCourses");
 		return r;
 	}
 	//create  a file with student registared courses
@@ -519,7 +523,7 @@ class RegistaredStudents extends Users{
 			crnNotFound=true;
 		}
 		if(constraints)
-			JOptionPane.showMessageDialog(null, "Student is not eligiable Department restrictions", "Registration Failed", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "User is not eligiable Department restrictions", "Registration Failed", JOptionPane.ERROR_MESSAGE);
 		else if(crnNotFound)
 			JOptionPane.showMessageDialog(null, "CRN was not found", "Registration Failed", JOptionPane.ERROR_MESSAGE);
 		return false;	
@@ -530,8 +534,12 @@ class RegistaredStudents extends Users{
 	public Vector<String>gv(){
 		return this.course;
 	}
+	//to remove a course from the current student instructor
 	public void setCourseAt(int i) {
 		this.course.remove(i);
-		
+	}
+	public void setCourse2(int i,String s) {
+		this.course.remove(i);
+		this.course.add(s);
 	}
 }
