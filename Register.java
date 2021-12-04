@@ -14,16 +14,18 @@ public class Register extends JFrame implements ActionListener{
 	private JTextField idField ;
 	private JTextField firstNameField;
 	private JTextField lastNameField ;
-	private JComboBox<Object> department;
+	private JComboBox<String> department;
 	private JPasswordField passwordField;
-	
+	private JTextField crnField;
+
 	private JLabel idLabel;
 	private JLabel firstNamelabel;
 	private JLabel lastNamelabel;
 	private JLabel passwordLabel;
 	private JLabel messageLabel;
 	private JLabel departmentLabel;
-	
+	private JLabel crnLabel;
+
 	private JRadioButton studentRadioButton;
     private JRadioButton instructorRadioButton;
     private ButtonGroup group;
@@ -31,10 +33,18 @@ public class Register extends JFrame implements ActionListener{
     private JPanel panel;
 	private JCheckBox showPasswordCheckBox;  
 	
+	private String fname,lname,dep,userid,password,ocuupation;
+	private String[]crn=new String[5];
+	private String occupation;
+	private Users users = new Users();
+	private Vector<Users> temp;
+	private Vector<RegistaredStudents>c=new Vector<RegistaredStudents>();
+	private Courses course = new Courses();
+	private Vector<RegistaredStudents>cc=new Vector<RegistaredStudents>();
+
 	public Register() {
 		
 		setTitle("Register");
-		setIconImage(Main.getIcon());
 		
 		init();
 		
@@ -92,8 +102,10 @@ public class Register extends JFrame implements ActionListener{
 		idField  = new JTextField(20);
 		firstNameField = new JTextField(20);
 		lastNameField = new JTextField(20);
-		department = new JComboBox<Object>(Departments.values());
+		String []s={Departments.PHYSICS.name(), Departments.CHEMISTRY.name(),Departments.ECCE.name()};
+		department = new JComboBox<String>(s);
 		passwordField = new JPasswordField(20);
+		crnField = new JTextField(20);
 		
 		idLabel = new JLabel("ID:");
 		firstNamelabel = new JLabel("First name:");
@@ -101,6 +113,7 @@ public class Register extends JFrame implements ActionListener{
 		passwordLabel = new JLabel("Password:");
 		departmentLabel = new JLabel("Department:");
 		messageLabel = new JLabel("");
+		crnLabel = new JLabel("CRN:");
 		
 		studentRadioButton = new JRadioButton("Student");
 	    instructorRadioButton=new JRadioButton("Instructor");
@@ -138,9 +151,9 @@ public class Register extends JFrame implements ActionListener{
 		panel.add(lastNameField,constraints);
 		constraints.gridx = 0;
 		constraints.gridy = 3;
-		panel.add(idLabel,constraints);
+		panel.add(crnLabel,constraints);
 		constraints.gridx = 1;
-		panel.add(idField,constraints);
+		panel.add(crnField,constraints);
 		constraints.gridx = 0;
 		constraints.gridy = 4;
 		panel.add(departmentLabel,constraints);
@@ -148,19 +161,22 @@ public class Register extends JFrame implements ActionListener{
 		panel.add(department,constraints);
 		constraints.gridx = 0;
 		constraints.gridy = 5;
+		panel.add(idLabel,constraints);
+		constraints.gridx = 1;
+		panel.add(idField,constraints);
+		constraints.gridx = 0;
+		constraints.gridy = 6;
 		panel.add(passwordLabel,constraints);
 		constraints.gridx = 1;
 		panel.add(passwordField,constraints);
 		constraints.gridwidth = 1;
 		constraints.gridx=3;
-		constraints.insets = new Insets(1, 1, 1, 1);
 		panel.add(messageLabel,constraints);
-		constraints.gridx = 1;
-		constraints.gridy = 6;
-		panel.add(showPasswordCheckBox,constraints);
-		constraints.insets = new Insets(10, 10, 10, 10);
 		constraints.gridx = 0;
 		constraints.gridy = 7;
+		panel.add(showPasswordCheckBox,constraints);
+		constraints.gridx = 0;
+		constraints.gridy = 8;
 		constraints.anchor = GridBagConstraints.CENTER;
 		panel.add(resetButton,constraints);
 		constraints.gridx = 1;
@@ -175,6 +191,7 @@ public class Register extends JFrame implements ActionListener{
 			passwordField.setText("");
 			firstNameField.setText("");
 			lastNameField.setText("");
+			crnField.setText("");
 		}
 		/*
 		 * if back was pressed go back to the Adminpage
@@ -188,6 +205,8 @@ public class Register extends JFrame implements ActionListener{
 			if(register()){
 				new AdminPage();
 				dispose();
+				
+				
 			}
 		}
 		if(showPasswordCheckBox.isSelected()) {
@@ -198,12 +217,13 @@ public class Register extends JFrame implements ActionListener{
 		}
 	}
 	public boolean register() {
-		String fname = firstNameField.getText().strip().replace(" ", "");
-		String lname = lastNameField.getText().strip().replace(" ", "");
-		String userid = idField.getText().strip().replace(" ", "");
-		String password = String.valueOf(passwordField.getPassword());
-		String occupation=null;
-		String dep=null;
+		fname = firstNameField.getText().strip().replace(" ", "");
+		lname = lastNameField.getText().strip().replace(" ", "");
+		userid = idField.getText().strip().replace(" ", "");
+		password = String.valueOf(passwordField.getPassword());
+		occupation=null;
+		dep=null;
+		crn=crnField.getText().split(" ");
 		/*
 		 * First check if the user filled the boxes with his credentials
 		 */
@@ -220,13 +240,13 @@ public class Register extends JFrame implements ActionListener{
 			messageLabel.setText("<html>Password should at least have<br>1 uppercase letter<br>1 lowercase letter<br>1 special character @#$%&+_!=<br>1 number");
 			return false;
 		}
-		if(department.getSelectedItem()==Departments.CHEMISTRY.name()) {
+		if(department.getSelectedItem().equals(Departments.CHEMISTRY.name())) {
 			dep=Departments.CHEMISTRY.name();
 		}
-		if(department.getSelectedItem()==Departments.ECCE.name()) {
+		if(department.getSelectedItem().equals(Departments.ECCE.name())) {
 			dep=Departments.ECCE.name();
 		}
-		if(department.getSelectedItem()==Departments.PHYSICS.name()) {
+		if(department.getSelectedItem().equals(Departments.PHYSICS.name())) {
 			dep=Departments.PHYSICS.name();
 		}
 		if(!studentRadioButton.isSelected()&&!instructorRadioButton.isSelected()) {
@@ -242,10 +262,11 @@ public class Register extends JFrame implements ActionListener{
 		/* to verify username is in the vector or not there
 		 * if the user is already in there display error message
 		 */
-		Users users = new Users();
-		Vector<Users> temp;
 		temp = new Vector<Users>();
 		temp = users.getUsers();
+		
+		c=course.getStudentCourses();
+		cc=course.getSenseiCourses();
 		boolean idFound = false;
 		int len = temp.size();
 		int i =0;
@@ -260,10 +281,22 @@ public class Register extends JFrame implements ActionListener{
 			return false;
 		}
 		else {
-			//add users to the vector of type user object
-			temp.add(new Users(fname, lname, userid, password,occupation,dep));
 			JOptionPane.showMessageDialog(null, "Registration Successful", "Registration Completed", JOptionPane.INFORMATION_MESSAGE);
-			users.saveUsers(temp);
+			if(studentRadioButton.isSelected()) {
+				temp.add(new Users(fname, lname, userid, password,occupation,dep));
+				c.add(new RegistaredStudents(fname,lname,userid,password,occupation,dep,crn));
+				users.saveUsers(temp);
+				course.saveStudentCourses(c);
+			}
+			else if(instructorRadioButton.isSelected()) {
+				for(int ii = 0;ii<cc.size();ii++) {
+					System.out.println(cc.elementAt(ii).gc());
+				}
+				temp.add(new Users(fname, lname, userid, password,occupation,dep));
+				cc.add(new RegistaredStudents(fname,lname,userid,password,occupation,dep,crn));
+				users.saveUsers(temp);
+				course.saveSenseiCourses(cc);
+			}
 			return true;
 		}
 	}

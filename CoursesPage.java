@@ -30,7 +30,6 @@ public class CoursesPage extends JFrame implements ActionListener, MouseListener
 
 	public CoursesPage(){
 		setTitle("Banner Self Service");
-		setIconImage(Main.getIcon());
 		
 		init();
 		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0};
@@ -58,7 +57,7 @@ public class CoursesPage extends JFrame implements ActionListener, MouseListener
 		 * creating a vector of users to use it in the jtable
 		 * count students assign it to object rows
 		 */
-		String[] colName= {"Code", "Name", "Hours","Section","Time","Room #","Instructor","Registered Students","Maximum Students","Start date", "End date"};
+		String[] colName= {"Code", "Name", "Hours","Section","Time","Room #","Instructor","Registered Students","Maximum Students","Start date", "End date","Department"};
 		Courses courses = new Courses();
 		/*
 		 * creating the table and configuring its dimensions

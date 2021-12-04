@@ -1,13 +1,8 @@
 /*
- * to add drop and modify students details
+ * Add drop students from courses, modify student details
  */
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.URL;
-import java.util.Vector;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.DocumentEvent;
@@ -15,9 +10,10 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
-//add drop students to the courses
-public class AddDropStudents extends JFrame implements ActionListener, MouseListener, DocumentListener{
+public class AddDropStudents extends JFrame implements TableModelListener, ActionListener, MouseListener, DocumentListener{
 
 	private JButton backButton;
 	
@@ -40,7 +36,6 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 		 * for making the jtable exapd to the left and write and shrink but it still disappers
 		 */
 		setTitle("Banner Self Service");
-		setIconImage(Main.getIcon());
 		init();
 		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0};
 		
@@ -85,6 +80,8 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 		 */
 		table.setFillsViewportHeight(true);
 		table.setAutoCreateRowSorter(true);
+		table.addMouseListener(this);
+		table.getModel().addTableModelListener(this);
 		setLayout(new BorderLayout());
 
 		scroll = new JScrollPane(table);
@@ -174,16 +171,19 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource()==addLabel) {
-			new AddStudent();
+			new AddStudentCourses();
 			dispose();
 		}
 		if(e.getSource()==removeLabel) {
-			new AddDropInstructor();
+			new RemoveStudentCourses();
 			dispose();
 		}
 		if(e.getSource()==modifyLabel) {
-			new CoursesPage();
-			dispose();
+//			new CoursesPage();
+//			dispose();
+		}
+		if(e.getClickCount()==2) {
+			new AddStudentCourses();
 		}
 	}
 	@Override
@@ -205,6 +205,40 @@ public class AddDropStudents extends JFrame implements ActionListener, MouseList
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	/*
+	 * When the admin updates the user information from the table it also gets updated in the file
+	 */
+	@Override
+	public void tableChanged(TableModelEvent e){
+//		if(e.getColumn()>=0){
+//			try{
+//				PrintWriter w = new PrintWriter(new FileOutputStream(new File("Test.txt"),true));
+//				Object[][]data=new Object[15][4];
+//				String[]crn=new String[5];
+//				for(int i =0;i<15;i++){
+//					for(int j =0;j<4;j++){
+//						data[i][j]=table.getModel().getValueAt(i,j);
+//						if(Verify.IDVerifier(""+data[i][j])){
+//							w.print(data[i][j]+" ");
+//						}
+//						else if(Verify.NameVerifier((""+data[i][j]).replaceAll("\\s", ""))){
+//							w.print(data[i][j]+" ");
+//						}
+//						else{
+//							System.out.println("Error in ID field input");
+//							table=new JTable(model);
+//							w.close();
+//							return ;
+//						}
+//					}	
+//					w.println();
+//				}
+//				w.close();
+//			}catch(IOException io){	
+//				System.out.println("You have changed something in the secong col");
+//			}	
+//		}
 	}
 	/* 
 	 * document event handler

@@ -31,7 +31,6 @@ public class AdminPage extends JFrame implements ActionListener, MouseListener {
 	public AdminPage(){
 		
 		setTitle("Banner Self Service");
-		setIconImage(Main.getIcon());
 		init();
 		
 		studentLabel.setToolTipText("The number of currently enrolled students in the system");

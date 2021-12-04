@@ -36,8 +36,7 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 	public AddDropInstructor(){
 		
 		setTitle("Banner Self Service");
-		setIconImage(Main.getIcon());
-		
+
 		init();
 		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0};
 		//square box around the word
@@ -112,8 +111,8 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 	private void init() {
 		
 		 backButton = new JButton("Back");
-		 addLabel = new JLabel("Add");
-		 removeLabel = new JLabel("Remove");
+		 addLabel = new JLabel("Add Course Load");
+		 removeLabel = new JLabel("Remove Course Load");
 		 modifyLabel = new JLabel("Modify");
 		
 		 gbl_panel = new GridBagLayout();
@@ -162,14 +161,24 @@ public class AddDropInstructor extends JFrame implements ActionListener, MouseLi
 			new AdminPage();
 			dispose();
 		}
-		
 	}
 	/*
 	 * mouse actions for hyperlink text
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
+		if(e.getSource()==addLabel) {
+			new AddInstructorCourses();
+			dispose();
+		}
+		if(e.getSource()==removeLabel) {
+			new RemoveinstructorCourses();
+			dispose();
+		}
+		if(e.getSource()==modifyLabel) {
+//			new CoursesPage();
+//			dispose();
+		}
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {

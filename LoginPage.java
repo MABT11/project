@@ -31,7 +31,6 @@ public class LoginPage extends JFrame implements ActionListener, KeyListener{
 		
 		init();
 		setTitle("Login");
-		setIconImage(Main.getIcon());
 		
 		showPasswordCheckBox.addActionListener(this);
 		passwordField.setEchoChar('*');

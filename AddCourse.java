@@ -25,6 +25,9 @@ public class AddCourse extends JFrame implements ActionListener{
 	private JTextField startdateField = new JTextField(20);
 	private JTextField enddateField = new JTextField(20);
 	
+	String []s={Departments.PHYSICS.name(), Departments.CHEMISTRY.name(),Departments.ECCE.name()};
+	private JComboBox<String> department = new JComboBox<String>(s);
+	
 	private JLabel courselabel = new JLabel("Course:");
 	private JLabel crnlabel = new JLabel("CRN:");
 	private JLabel hourslabel = new JLabel("Hours:");
@@ -36,6 +39,7 @@ public class AddCourse extends JFrame implements ActionListener{
 	private JLabel maxstudentslabel = new JLabel("Max Students:");
 	private JLabel startdatelabel = new JLabel("Start Date:");
 	private JLabel enddatelabel = new JLabel("End Date:");
+	private JLabel departmentLabel = new JLabel("Department:");
 	
 	private Courses course = new Courses();
     private String coursename=null,crn=null,hours=null,section=null,time=null,room=null,id=null;
@@ -89,52 +93,54 @@ public class AddCourse extends JFrame implements ActionListener{
 		panel.add(crnField,constraints);
 		constraints.gridx = 0;
 		constraints.gridy = 3;
+		panel.add(departmentLabel,constraints);
+		constraints.gridx = 1;
+		panel.add(department,constraints);
+		constraints.gridx = 0;
+		constraints.gridy = 4;
 		panel.add(hourslabel,constraints);
 		constraints.gridx = 1;
 		panel.add(hoursField,constraints);
 		constraints.gridx = 0;
-		constraints.gridy = 4;
+		constraints.gridy = 5;
 		panel.add(sectionlabel,constraints);
 		constraints.gridx = 1;
 		panel.add(sectionField,constraints);
 		constraints.gridx = 0;
-		constraints.gridy = 5;
+		constraints.gridy = 6;
 		panel.add(timelabel,constraints);
 		constraints.gridx = 1;
 		panel.add(timeField,constraints);
 		constraints.gridx = 0;
-		constraints.gridy = 6;
+		constraints.gridy = 7;
 		panel.add(roomlabel,constraints);
 		constraints.gridx = 1;
 		panel.add(roomField,constraints);
 		constraints.gridx = 0;
-		constraints.gridy = 7;
+		constraints.gridy = 8;
 		panel.add(instructorlabel,constraints);
 		constraints.gridx = 1;
 		panel.add(instructorField,constraints);
 		constraints.gridx = 0;
-		constraints.gridy = 8;
+		constraints.gridy = 9;
 		panel.add(numberofstudentslabel,constraints);
 		constraints.gridx = 1;
 		panel.add(numberofstudentsField,constraints);
 		constraints.gridx = 0;
-		constraints.gridy = 9;
+		constraints.gridy = 10;
 		panel.add(maxstudentslabel,constraints);
 		constraints.gridx = 1;
 		panel.add(maxstudentsField,constraints);
 		constraints.gridx = 0;
-		constraints.gridy = 10;
+		constraints.gridy = 11;
 		panel.add(startdatelabel,constraints);
 		constraints.gridx = 1;
 		panel.add(startdateField,constraints);
 		constraints.gridx = 0;
-		constraints.gridy = 11;
+		constraints.gridy = 12;
 		panel.add(enddatelabel,constraints);
 		constraints.gridx = 1;
 		panel.add(enddateField,constraints);
-		constraints.gridx = 0;
-		constraints.gridy = 12;
-		//panel.add(showPasswordCheckBox,constraints);
 		constraints.gridx = 0;
 		constraints.gridy = 13;
 		constraints.anchor = GridBagConstraints.CENTER;
@@ -193,10 +199,19 @@ public class AddCourse extends JFrame implements ActionListener{
 			maxstudents = maxstudentsField.getText().strip().replace(" ", "");
 			startdate = startdateField.getText().strip().replace(" ", "");
 			enddate = enddateField.getText().strip().replace(" ", "");
-			
+			String dep =null;
 			if(!Verify.crnVerifier(crn)) {
 				JOptionPane.showMessageDialog(null, "Please Enter a vaild CRN", "Registration Unuccessful", JOptionPane.ERROR_MESSAGE);	
 				return false;
+			}
+			if(department.getSelectedItem().equals(Departments.CHEMISTRY.name())) {
+				dep=Departments.CHEMISTRY.name();
+			}
+			if(department.getSelectedItem().equals(Departments.ECCE.name())) {
+				dep=Departments.ECCE.name();
+			}
+			if(department.getSelectedItem().equals(Departments.PHYSICS.name())) {
+				dep=Departments.PHYSICS.name();
 			}
 			/*
 			 * First check if the user filled the boxes with his credentials
@@ -222,7 +237,7 @@ public class AddCourse extends JFrame implements ActionListener{
 			}
 			else {
 				//add users to the vector of type user object
-				temp.add(new Courses(coursename, crn, hours, section,time,room,id,numberofstudents,maxstudents,startdate,enddate));
+				temp.add(new Courses(coursename, crn, hours, section,time,room,id,numberofstudents,maxstudents,startdate,enddate,dep));
 				JOptionPane.showMessageDialog(null, "Registration Successful", "Registration Completed", JOptionPane.INFORMATION_MESSAGE);
 				course.saveCourses(temp);
 				return true;
