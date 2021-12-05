@@ -59,11 +59,10 @@ public class ModifyStudentDetails extends JFrame implements  ActionListener, Mou
 		 * count students assign it to object rows
 		 */
 		
-		Users users = new Users();
 		/*
 		 * creating the table and configuring its dimensions
 		 */
-		model = new DefaultTableModel(users.getStudentInfo(), colName);
+		
 
 		table = new JTable(model){
 			@Override					// set all cells to uneditable
@@ -120,7 +119,9 @@ public class ModifyStudentDetails extends JFrame implements  ActionListener, Mou
 	 * Initializing all attributes
 	 */
 	public void init() {
-		
+
+		 Users users = new Users();
+		 model = new DefaultTableModel(users.getStudentInfo(), colName);
 		 backButton = new JButton("Back");
 		 
 		 modifyLabel = new JLabel("Modify");
@@ -178,23 +179,15 @@ public class ModifyStudentDetails extends JFrame implements  ActionListener, Mou
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	/*
 	 * When the admin updates the user information from the table it also gets updated in the file
@@ -208,21 +201,18 @@ public class ModifyStudentDetails extends JFrame implements  ActionListener, Mou
 		load = user.getStudentVector();
 		int length =user.getStudents();
 		int colnum=4;
-		Object[][]data2=new Object[length][colnum];
 		Object[][]data=new Object[length][colnum];
-		String[]crn=new String[5];
+		String[]crn=new String[6];
+
 		for(int i =0;i<length;i++){
 			for(int j =0;j<colnum;j++){
 				data[i][j]=table.getModel().getValueAt(i,j);
 				if(Verify.IDVerifier(""+data[i][j])){
-					System.out.print(data[i][j]+" ");
-					data2[i][j]=data[i][j];
 					c.elementAt(i).setID(""+data[i][j]);
 					load.elementAt(i).setID(""+data[i][j]);
 				}
 				else if(Verify.NameVerifier((""+data[i][j]).replaceAll("\\s", ""))){
 					System.out.print(data[i][j]+" ");
-					data2[i][j]=data[i][j];
 					if(data[i][j].equals("ECCE")) {
 						c.elementAt(i).setDepartment("ECCE");
 						load.elementAt(i).setDepartment("ECCE");
@@ -245,16 +235,14 @@ public class ModifyStudentDetails extends JFrame implements  ActionListener, Mou
 				}
 				else{
 					crn = (""+data[i][j]).replaceAll("\\s", "").split(",");
-					for(int k=0;k<crn.length;k++) {
+					int l =crn.length;
+					for(int k=0;k<l;k++) {
 						if(Verify.crnVerifier(crn[k])) {
-							System.out.print(crn[k]+" ");
-							data2[i][j]=data[i][j];
-							c.elementAt(i).setCourse2(k,crn[k]);
+							c.elementAt(i).setCourse2(l-k-1,crn[k]);
 						}
 					}
 				}
 			}	
-			System.out.println();
 		}
 		course.saveStudentCoursesAdd(c);
 		user.saveModifiedStudents(load);
@@ -291,11 +279,15 @@ public class ModifyStudentDetails extends JFrame implements  ActionListener, Mou
 	}
 	@Override
 	public void tableChanged(TableModelEvent e) {
+		//display warning when the admin edits senstive data
 		if(e.getColumn()==2) {
 			JOptionPane.showMessageDialog(null, "To avoid problems with the system please go change the student courses\n"
 					+ "1) Remove all the courses that the student is enrolled in\n"
-					+ "2) Add applicable courses considering his new department", "Registration Error", JOptionPane.ERROR_MESSAGE);
+					+ "2) Add applicable courses considering his new department", "Registration Error", JOptionPane.WARNING_MESSAGE);
 		}
-		
+		if(e.getColumn()==0) {
+			JOptionPane.showMessageDialog(null, "To avoid problems with the system please check assigned ID\n"
+					+ "Make sure the ID assigned is unique","Registration Error", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 }

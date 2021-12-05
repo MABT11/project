@@ -37,7 +37,6 @@ public class RemoveStudentCourses extends JFrame implements ActionListener{
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
 		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Remove Student Courses"));
 	
-
 		removeCourseButton.setFocusable(false);
 		removeCourseButton.addActionListener(this);
 				

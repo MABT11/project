@@ -38,7 +38,7 @@ public class ModifyInstructorDetails extends JFrame implements  ActionListener, 
 		/*
 		 * for making the jtable exapd to the left and write and shrink but it still disappers
 		 */
-		setTitle("Banner Self Service");
+		setTitle("Modify Instructor Details");
 		init();
 		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0};
 		
@@ -71,6 +71,7 @@ public class ModifyInstructorDetails extends JFrame implements  ActionListener, 
             //  Determine editor to be used by row
             public TableCellEditor getCellEditor(int row, int column){
                 int modelColumn = convertColumnIndexToModel( column );
+               //making the department col dropdown
                 String []s={"ECCE","PHYSICS","CHEMISTRY"};
                 if (modelColumn == 2){
                     JComboBox<String> comboBox1 = new JComboBox<String>(s);
@@ -168,26 +169,22 @@ public class ModifyInstructorDetails extends JFrame implements  ActionListener, 
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
+//to commit the changes made to the instructor details you need to press on modify in order to change their details
 		if(e.getSource()==modifyLabel) {
 			mod();
 		}
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
-		
 	}
 	/*
 	 * When the admin updates the user information from the table it also gets updated in the file
@@ -207,12 +204,10 @@ public class ModifyInstructorDetails extends JFrame implements  ActionListener, 
 			for(int j =0;j<colnum;j++){
 				data[i][j]=table.getModel().getValueAt(i,j);
 				if(Verify.IDVerifier(""+data[i][j])){
-					System.out.print(data[i][j]+" ");
 					c.elementAt(i).setID(""+data[i][j]);
 					load.elementAt(i).setID(""+data[i][j]);
 				}
 				else if(Verify.NameVerifier((""+data[i][j]).replaceAll("\\s", ""))){
-					System.out.print(data[i][j]+" ");
 					if(data[i][j].equals("ECCE")) {
 						c.elementAt(i).setDepartment("ECCE");
 						load.elementAt(i).setDepartment("ECCE");
@@ -235,15 +230,14 @@ public class ModifyInstructorDetails extends JFrame implements  ActionListener, 
 				}
 				else{
 					crn = (""+data[i][j]).replaceAll("\\s", "").split(",");
-					for(int k=0;k<crn.length;k++) {
+					int l =crn.length;
+					for(int k=0;k<l;k++) {
 						if(Verify.crnVerifier(crn[k])) {
-							System.out.print(crn[k]+" ");
-							c.elementAt(i).setCourse2(k,crn[k]);
+							c.elementAt(i).setCourse2(l-k-1,crn[k]);
 						}
 					}
 				}
 			}	
-			System.out.println();
 		}
 		course.saveSenseiCoursesAdd(c);
 		user.saveModifiedInstructors(load);
@@ -281,8 +275,13 @@ public class ModifyInstructorDetails extends JFrame implements  ActionListener, 
 	@Override
 	public void tableChanged(TableModelEvent e) {
 		if(e.getColumn()==2) {
-			JOptionPane.showMessageDialog(null, "Please go and change the instructor courses as well", "Registration Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "To avoid problems with the system please go change the student courses\n"
+					+ "1) Remove all the courses that the instructor is teaching\n"
+					+ "2) Add applicable courses considering his new department", "Registration Error", JOptionPane.WARNING_MESSAGE);
 		}
-		
+		if(e.getColumn()==0) {
+			JOptionPane.showMessageDialog(null, "To avoid problems with the system please check assigned ID\n"
+					+ "Make sure the ID assigned is unique","Registration Error", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 }

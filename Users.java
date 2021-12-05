@@ -33,7 +33,7 @@ public class Users implements Info{
 		this.occupation = null;
 		this.department=null;
 	}
-	//save users to file 
+	//save students to file after they have been modified
 	public void saveModifiedStudents(Vector<Users> sv) {
 		try {
 			PrintWriter S = new PrintWriter(new FileWriter("users.txt"));
@@ -68,6 +68,7 @@ public class Users implements Info{
 			e.printStackTrace();
 		}
 	}
+	//save instructors to file after they have been modified
 	public void saveModifiedInstructors(Vector<Users> iv) {
 		try {
 			PrintWriter S = new PrintWriter(new FileWriter("users.txt"));

@@ -77,9 +77,7 @@ public class Courses {
 	public String getEnddate() {
 		return this.enddate;
 	}
-//	public boolean equals(Object ob) {
-//		return this.crn==((Courses ) ob).getCrn();
-//	}
+
 	//save Students and their registared courses to the appropriate file 
 	public void saveStudentCourses(Vector<RegistaredStudents> save) {
 		try {
@@ -119,6 +117,7 @@ public class Courses {
 			e.printStackTrace();
 		}
 	}
+	//to write the courses when you add course load to the instructor
 	public void saveSenseiCoursesAdd(Vector<RegistaredStudents> save) {
 		try {
 			PrintWriter S = new PrintWriter(new FileWriter("InstructorCourses.txt"));
@@ -538,6 +537,7 @@ class RegistaredStudents extends Users{
 	public void setCourseAt(int i) {
 		this.course.remove(i);
 	}
+	//when editing the student/instructor details to copy all courses
 	public void setCourse2(int i,String s) {
 		this.course.remove(i);
 		this.course.add(s);

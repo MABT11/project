@@ -1,5 +1,5 @@
 /*
- * Regex to check the sanity of the input name, pass, id
+ * Regex to check the sanity of the input name, pass, id, crn, department
  */
 import java.util.regex.*;
 public class Verify {
